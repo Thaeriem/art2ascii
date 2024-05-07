@@ -92,7 +92,7 @@ def ascii_driver(file_path):
     return ascii_art_color
 
 
-def create_image_from_ascii(ascii_text, path="", border=(1600, 70, 0, 400)):
+def create_image_from_ascii(ascii_text, path="", resize=1, border=(1600, 70, 0, 400)):
 
     os.system("cls" if os.name == "nt" else "clear")
     sys.stdout.write(ascii_text)
@@ -101,6 +101,7 @@ def create_image_from_ascii(ascii_text, path="", border=(1600, 70, 0, 400)):
     screenshot.save("temp.png")
     image = Image.open("temp.png")
     image = ImageOps.crop(image, border)
+    image = image.resize((image.width // resize, image.height // resize))
     os.system("cls" if os.name == "nt" else "clear")
     os.remove("temp.png")
     if path != "":

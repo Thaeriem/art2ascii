@@ -39,11 +39,11 @@ def print_frames(frames, num_iterations=5):
 def create_gif(frames, gif_path, delay=0.05):
     images = []
     for frame in frames:
-        image = create_image_from_ascii(frame)
+        image = create_image_from_ascii(frame, resize=2)
         images.append(image)
 
     # Save the images as frames of a GIF
-    imageio.mimsave(gif_path, images, duration=delay)
+    imageio.mimsave(gif_path, images, loop=0, duration=delay)
 
 
 if __name__ == "__main__":
