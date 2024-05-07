@@ -7,7 +7,6 @@ from ascii_img import img_driver
 
 def split_gif(gif_path):
     # Open the GIF file
-    start_time = time.time()
     gif = Image.open(gif_path)
 
     ascii_gif = []
@@ -20,8 +19,6 @@ def split_gif(gif_path):
         # Copy the current frame
         frame = gif.copy()
         ascii_gif.append(img_driver(frame))
-    end_time = time.time()
-    # print(f"Execution time: {end_time - start_time} seconds")
     return ascii_gif
 
 
@@ -29,7 +26,7 @@ def print_frames(frames, num_iterations=10):
     for _ in range(num_iterations):
         for frame in frames:
             # Clear the terminal screen
-            os.system('cls' if os.name == 'nt' else 'clear')
+            os.system("cls" if os.name == "nt" else "clear")
 
             # Print the frame
             print(frame)
