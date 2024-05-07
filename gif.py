@@ -1,8 +1,9 @@
 import time
 import os
 import sys
+import imageio
 from PIL import Image
-from ascii_img import img_driver
+from ascii_img import img_driver, create_image_from_ascii
 
 
 def split_gif(gif_path):
@@ -22,7 +23,7 @@ def split_gif(gif_path):
     return ascii_gif
 
 
-def print_frames(frames, num_iterations=10):
+def print_frames(frames, num_iterations=5):
     for _ in range(num_iterations):
         for frame in frames:
             # Clear the terminal screen
@@ -35,11 +36,25 @@ def print_frames(frames, num_iterations=10):
             time.sleep(0.065)
 
 
+def create_gif(frames, gif_path, delay=0.05):
+    images = []
+    for frame in frames:
+        image = create_image_from_ascii(frame)
+        images.append(image)
+
+    # Save the images as frames of a GIF
+    imageio.mimsave(gif_path, images, duration=delay)
+
+
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <gif_file_path>")
+    if len(sys.argv) < 2:
+        print("Usage: python script.py <gif_file_path> <output_path>")
         sys.exit(1)
 
-    gif_file_path = sys.argv[1]
+    gif_file_path = "content/" + sys.argv[1]
+    output_path = "output/"
     frames = split_gif(gif_file_path)
-    print_frames(frames)
+    if len(sys.argv) == 3:
+        create_gif(frames, output_path + sys.argv[2])
+    else:
+        print_frames(frames)

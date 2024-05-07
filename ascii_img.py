@@ -1,6 +1,8 @@
 import sys
-from PIL import Image
+import os
+from PIL import Image, ImageOps
 from kd_tree import KDTree
+import pyautogui
 
 
 def hex_to_rgb(hex_color):
@@ -87,13 +89,34 @@ def ascii_driver(file_path):
     color_mapping = init_colors()
     kd_tree = kd_tree_driver(color_mapping)
     ascii_art_color = image_to_ascii_color(color_mapping, kd_tree, "", file_path)
-    print(ascii_art_color)
+    return ascii_art_color
+
+
+def create_image_from_ascii(ascii_text, path="", border=(1600, 70, 0, 400)):
+
+    os.system("cls" if os.name == "nt" else "clear")
+    sys.stdout.write(ascii_text)
+    sys.stdout.flush()
+    screenshot = pyautogui.screenshot()
+    screenshot.save("temp.png")
+    image = Image.open("temp.png")
+    image = ImageOps.crop(image, border)
+    os.system("cls" if os.name == "nt" else "clear")
+    os.remove("temp.png")
+    if path != "":
+        image.save(path)
+    return image
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <image_file_path>")
+    if len(sys.argv) < 2:
+        print("Usage: python script.py <image_file_path> <output_path>")
         sys.exit(1)
 
-    image_file_path = sys.argv[1]
-    ascii_driver(image_file_path)
+    image_file_path = "content/" + sys.argv[1]
+    output_path = "output/"
+    image = ascii_driver(image_file_path)
+    if len(sys.argv) == 3:
+        create_image_from_ascii(image, output_path + sys.argv[2])
+    else:
+        print(image)
