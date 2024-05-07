@@ -21,7 +21,7 @@ def split_gif(gif_path):
         frame = gif.copy()
         ascii_gif.append(img_driver(frame))
     end_time = time.time()
-    print(f"Execution time: {end_time - start_time} seconds")
+    # print(f"Execution time: {end_time - start_time} seconds")
     return ascii_gif
 
 
@@ -45,4 +45,4 @@ if __name__ == "__main__":
 
     gif_file_path = sys.argv[1]
     frames = split_gif(gif_file_path)
-    # print_frames(frames)
+    print_frames(frames)

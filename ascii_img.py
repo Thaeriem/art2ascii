@@ -26,7 +26,7 @@ def ascii_color(color_code, text):
 def eucl_dist(color1, color2):
     r1, g1, b1 = color1
     r2, g2, b2 = color2
-    return (r2 - r1) ** 2 + (g2 - g1) ** 2 + (b2 - b1) ** 2
+    return ((r2-r1)*0.3) ** 2 + ((g2-g1)*0.59) ** 2 + ((b2-b1)*0.11) ** 2
 
 
 def closest_color(input_color):
@@ -59,11 +59,14 @@ def image_to_ascii_color(image, image_path="", width=100):
     for y in range(img.height):
         for x in range(img.width):
             pixel = img.getpixel((x, y))
-            code = closest_color(pixel)
 
             pixel_intensity = 255 - grey_img.getpixel((x, y))
-            ascii_art += ascii_color(code, ascii_chars[pixel_intensity *
-                                     len(ascii_chars) // 256])
+            char = ascii_chars[pixel_intensity * len(ascii_chars) // 256]
+            if char != ' ':
+                code = closest_color(pixel)
+            else:
+                code = 0
+            ascii_art += ascii_color(code, char)
         ascii_art += '\n'
 
     return ascii_art
