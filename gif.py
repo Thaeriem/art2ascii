@@ -39,7 +39,7 @@ def print_frames(frames, num_iterations=5):
 def create_gif(frames, gif_path, delay=0.05):
     images = []
     for frame in frames:
-        image = create_image_from_ascii(frame, resize=2)
+        image = create_image_from_ascii(frame, resize=2, border=(1600, 70, 0, 400))
         images.append(image)
 
     # Save the images as frames of a GIF
