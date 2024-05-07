@@ -3,16 +3,16 @@ class KDTree(object):
     def __init__(self, points, dim, dist_sq_func=None):
 
         if dist_sq_func is None:
-            def dist_sq_func(a, b): return sum((x - b[i]) ** 2
-                                               for i, x in enumerate(a))
+
+            def dist_sq_func(a, b):
+                return sum((x - b[i]) ** 2 for i, x in enumerate(a))
 
         def make(points, i=0):
             if len(points) > 1:
                 points.sort(key=lambda x: x[i])
                 i = (i + 1) % dim
                 m = len(points) >> 1
-                return [make(points[:m], i), make(points[m + 1:], i),
-                        points[m]]
+                return [make(points[:m], i), make(points[m + 1 :], i), points[m]]
             if len(points) == 1:
                 return [None, None, points[0]]
 
@@ -36,13 +36,20 @@ class KDTree(object):
                 elif dist_sq < -heap[0][0]:
                     heapq.heappushpop(heap, (-dist_sq, tiebreaker, node[2]))
                 i = (i + 1) % dim
-                # Goes into the left branch, then the right branch if needed
-                for b in (dx < 0, dx >= 0)[:1 + (dx * dx < -heap[0][0])]:
-                    get_knn(node[b], point, k, return_dist_sq,
-                            heap, i, (tiebreaker << 1) | b)
+                for b in (dx < 0, dx >= 0)[: 1 + (dx * dx < -heap[0][0])]:
+                    get_knn(
+                        node[b],
+                        point,
+                        k,
+                        return_dist_sq,
+                        heap,
+                        i,
+                        (tiebreaker << 1) | b,
+                    )
             if tiebreaker == 1:
-                return [(-h[0], h[2]) if return_dist_sq else h[2]
-                        for h in sorted(heap)][::-1]
+                return [
+                    (-h[0], h[2]) if return_dist_sq else h[2] for h in sorted(heap)
+                ][::-1]
 
         def walk(node):
             if node is not None:
@@ -60,13 +67,6 @@ class KDTree(object):
         return self._walk(self._root)
 
     def add_point(self, point):
-        """Adds a point to the kd-tree.
-
-        Parameters
-        ----------
-        point : array-like
-            The point.
-        """
         if self._root is None:
             self._root = [None, None, point]
         else:
