@@ -71,7 +71,7 @@ art2ascii -f docs/images/monalisa.jpeg -w 40
 ```
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
     <img src="docs/output/ascii_monalisa.png" alt="Monalisa" style="width: 400px; margin-right: 10px;">
-    <img src="docs/output/ascii_monalisa_mini.png" alt="Monalisa" style="width: 400px;">
+    <img src="docs/output/ascii_monalisa_mini.png" alt="Monalisa" style="width: 330px;">
 </div>
 
 ```sh
