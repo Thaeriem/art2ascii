@@ -40,14 +40,14 @@ def kd_tree_driver(color_mapping):
     return kd_tree
 
 
-def image_to_ascii_color(color_mapping, kd_tree, image, image_path="", width=100):
+def image_to_ascii_color(color_mapping, kd_tree, image, width, image_path):
     if image_path != "":
         img = Image.open(image_path)
     else:
         img = image
     img = img.resize((width, int(width * img.height / img.width) // 2))
     img = img.convert("RGB")
-    grey_img = img.convert("L")  # Convert to grayscale
+    grey_img = img.convert("L")  # Convert to greyscale
 
     ascii_chars = "@%#*+=-:. "  # ASCII characters from dark to light
     prev_colors = {}
@@ -73,51 +73,46 @@ def image_to_ascii_color(color_mapping, kd_tree, image, image_path="", width=100
     return ascii_art
 
 
-def init_colors():
-    color_mapping = parse_color_file("colors.txt")
+def init_colors(greyscale):
+    if greyscale:
+        color_mapping = parse_color_file("greyscale.txt")
+    else:
+        color_mapping = parse_color_file("colors.txt")
     return color_mapping
 
 
-def img_driver(image):
-    color_mapping = init_colors()
+def img_driver(image, greyscale, width):
+    color_mapping = init_colors(greyscale)
     kd_tree = kd_tree_driver(color_mapping)
-    ascii_art_color = image_to_ascii_color(color_mapping, kd_tree, image)
+    ascii_art_color = image_to_ascii_color(color_mapping, kd_tree, image, width, "")
     return ascii_art_color
 
 
-def ascii_driver(file_path):
-    color_mapping = init_colors()
+def ascii_driver(file_path, greyscale, width):
+    color_mapping = init_colors(greyscale)
     kd_tree = kd_tree_driver(color_mapping)
-    ascii_art_color = image_to_ascii_color(color_mapping, kd_tree, "", file_path)
+    ascii_art_color = image_to_ascii_color(color_mapping, kd_tree, "", width, file_path)
     return ascii_art_color
 
 
-def create_image_from_ascii(ascii_text, path="", resize=1, border=(1600, 70, 0, 400)):
+def create_image_from_ascii(ascii_text, resize, border, filename=""):
 
     os.system("cls" if os.name == "nt" else "clear")
     sys.stdout.write(ascii_text)
     sys.stdout.flush()
-    screenshot = pyautogui.screenshot()
-    screenshot.save("temp.png")
-    image = Image.open("temp.png")
+    image = pyautogui.screenshot()
     image = ImageOps.crop(image, border)
     image = image.resize((int(image.width * resize), int(image.height * resize)))
     os.system("cls" if os.name == "nt" else "clear")
-    os.remove("temp.png")
-    if path != "":
-        image.save(path)
+    if filename != "":
+        path = filename.split("/")
+        image.save("ascii_" + path[len(path) - 1])
     return image
 
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python script.py <image_file_path> <output_path>")
-        sys.exit(1)
-
-    image_file_path = "content/" + sys.argv[1]
-    output_path = "output/"
-    image = ascii_driver(image_file_path)
-    if len(sys.argv) == 3:
-        create_image_from_ascii(image, output_path + sys.argv[2])
+def img_main(args):
+    image = ascii_driver(args.filename, args.greyscale, args.width)
+    if args.save:
+        create_image_from_ascii(image, args.resize, args.border, args.filename)
     else:
         print(image)

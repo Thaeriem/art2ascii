@@ -6,7 +6,7 @@ A command-line tool to convert images and GIFs into ASCII art.
 - Can be downloaded as image (support for GIFs is currently macOS only)[^1]
 
 <p align="center">
-<img src="output/pedro.gif" alt="Popcat" width="400">
+<img src="docs/output/pedro.gif" alt="Popcat" width="400">
 </p>
 
 ## Getting Started
