@@ -2,7 +2,7 @@
 
 A command-line tool to convert images and GIFs into ASCII art.
 - Displays in terminal with 256 colors 
-- Optimized with [k-d trees][1]
+- Optimized nearest color algortihm with [k-d trees][1]
 - Can be downloaded as image (support for GIFs is currently macOS only)[^1]
 
 <p align="center">
@@ -41,22 +41,31 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 
 
-
-
 <!-- USAGE EXAMPLES -->
 ## Usage
+```sh
+art2ascii ver: 1.0.0
+~ GitHub: https://github.com/Thaeriem/art2ascii
+~ Issues: https://github.com/Thaeriem/art2ascii/issues
+~ Author: Thaeriem
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Usage: art2ascii -f <file> -s
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+Options:
+  -f    Image/Gif filename [string]
+  -g    Greyscale (default false)
+  -r    Resize [float] (default 1.0)
+  -w    Width [int] (default 100)
+  -s    Save File (default false)
+```
+
 
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
+* [Pillow](https://pillow.readthedocs.io/en/stable/) - Python Imaging Library
+* [imageio](https://imageio.readthedocs.io/en/stable/) - For Creating GIFs
+* [pyautogui](https://pyautogui.readthedocs.io/en/latest/) - For taking screenshots of terminal
 
 [^1]: Support
 

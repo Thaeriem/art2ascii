@@ -101,7 +101,7 @@ def create_image_from_ascii(ascii_text, path="", resize=1, border=(1600, 70, 0, 
     screenshot.save("temp.png")
     image = Image.open("temp.png")
     image = ImageOps.crop(image, border)
-    image = image.resize((image.width // resize, image.height // resize))
+    image = image.resize((int(image.width * resize), int(image.height * resize)))
     os.system("cls" if os.name == "nt" else "clear")
     os.remove("temp.png")
     if path != "":
