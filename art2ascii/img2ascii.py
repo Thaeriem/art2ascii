@@ -106,7 +106,8 @@ def create_image_from_ascii(ascii_text, resize, border, filename=""):
     os.system("cls" if os.name == "nt" else "clear")
     if filename != "":
         path = filename.split("/")
-        image.save("ascii_" + path[len(path) - 1])
+        filetype = path[len(path) - 1].split(".")
+        image.save("ascii_" + filetype[0] + ".png")
     return image
 
 

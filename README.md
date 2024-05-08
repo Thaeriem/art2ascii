@@ -11,52 +11,55 @@ A command-line tool to convert images and GIFs into ASCII art.
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+
+* [python][2]
+* [pip][3]
   ```sh
-  npm install npm@latest -g
+  python3 -m ensurepip
+  # or
+  brew install pip
   ```
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+Run the following command:
+```sh
+pip install git+https://github.com/Thaeriem/art2ascii.git@1.0.1
+```
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 ```sh
-art2ascii ver: 1.0.0
+art2ascii ver: 1.0.1
 ~ GitHub: https://github.com/Thaeriem/art2ascii
 ~ Issues: https://github.com/Thaeriem/art2ascii/issues
 ~ Author: Thaeriem
 
-Usage: art2ascii -f <file> -s
+usage: art2ascii [-h] [-f FILENAME] [-g] [-r RESIZE] [-w WIDTH] [-s] [-l LOOPS] [-b BORDER]
 
-Options:
-  -f    Image/Gif filename [string]
-  -g    Greyscale (default false)
-  -r    Resize [float] (default 1.0)
-  -w    Width [int] (default 100)
-  -s    Save File (default false)
+Command line options for converting images/GIFs into ASCII art.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FILENAME, --filename FILENAME
+                        Image/GIF filename
+  -g, --greyscale       Enable greyscale (default: false)
+  -r RESIZE, --resize RESIZE
+                        Resize factor (default: 1.0)
+  -w WIDTH, --width WIDTH
+                        Width (default: 100)
+  -s, --save            Save file (default: false)
+  -l LOOPS, --loops LOOPS
+                        Number of times to loop (default: 10)
+  -b BORDER, --border BORDER
+                        Border input (format: "left,top,right,bottom")
+```
+```sh
+
 ```
 
 
@@ -70,3 +73,5 @@ Options:
 [^1]: Support
 
 [1]: https://en.wikipedia.org/wiki/K-d_tree "Wikipedia: K-d trees"
+[2]: https://www.python.org/downloads/ "Python download"
+[3]: https://pip.pypa.io/en/stable/installation/ "Pip install"
