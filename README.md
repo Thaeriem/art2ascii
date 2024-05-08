@@ -6,7 +6,7 @@ A command-line tool to convert images and GIFs into ASCII art.
 - Can be downloaded as image (support for GIFs is currently macOS only)[^1]
 
 <p align="center">
-<img src="docs/output/pedro.gif" alt="Popcat" width="400">
+<img src="docs/output/ascii_pedro.gif" alt="Popcat" width="500">
 </p>
 
 ## Getting Started
@@ -59,9 +59,36 @@ optional arguments:
                         Border input (format: "left,top,right,bottom")
 ```
 ```sh
+art2ascii -f docs/images/starrynight.jpeg
+```
+<p align="center">
+<img src="docs/output/ascii_starrynight.png" alt="Starrynight" width="800">
+</p>
 
+```sh
+art2ascii -f docs/images/monalisa.jpeg
+art2ascii -f docs/images/monalisa.jpeg -w 40
+```
+<div style="display: flex; justify-content: center; margin-bottom: 20px;">
+    <img src="docs/output/ascii_monalisa.png" alt="Monalisa" style="width: 400px; margin-right: 10px;">
+    <img src="docs/output/ascii_monalisa_mini.png" alt="Monalisa" style="width: 400px;">
+</div>
+
+```sh
+art2ascii -f docs/images/homer.gif
 ```
 
+<p align="center">
+<img src="docs/output/ascii_homer.gif" alt="Homer" width="600">
+</p>
+
+```sh
+art2ascii -f docs/images/popcat.gif 
+```
+
+<p align="center">
+<img src="docs/output/ascii_popcat.gif" alt="Homer" width="600">
+</p>
 
 
 ## Built With
@@ -70,7 +97,7 @@ optional arguments:
 * [imageio](https://imageio.readthedocs.io/en/stable/) - For Creating GIFs
 * [pyautogui](https://pyautogui.readthedocs.io/en/latest/) - For taking screenshots of terminal
 
-[^1]: Support
+[^1]: Automated GIFs are finicky and rely on the --border parameter to get right, it may be easier to just screen record the terminal output for some users
 
 [1]: https://en.wikipedia.org/wiki/K-d_tree "Wikipedia: K-d trees"
 [2]: https://www.python.org/downloads/ "Python download"
