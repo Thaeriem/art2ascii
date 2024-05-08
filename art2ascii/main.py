@@ -1,7 +1,7 @@
 import argparse
 import sys
-from gif2ascii import gif_main
-from img2ascii import img_main
+from art2ascii.gif2ascii import gif_main
+from art2ascii.img2ascii import img_main
 
 
 def parse_tuple(input_str):

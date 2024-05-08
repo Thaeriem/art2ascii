@@ -1,9 +1,8 @@
 import time
 import os
-import sys
 import imageio
 from PIL import Image
-from img2ascii import img_driver, create_image_from_ascii
+from art2ascii.img2ascii import img_driver, create_image_from_ascii
 
 
 def split_gif(filename, greyscale, width):
