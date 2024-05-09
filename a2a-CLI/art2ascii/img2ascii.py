@@ -3,6 +3,7 @@ import os
 from PIL import Image, ImageOps
 import art2ascii.kd_tree as kd_tree
 import pyautogui
+from pkg_resources import resource_string
 
 
 def hex_to_rgb(hex_color):
@@ -11,14 +12,14 @@ def hex_to_rgb(hex_color):
     return tuple(int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
 
 
-def parse_color_file(file_path):
+def parse_color_file(color_string):
     # parse terminal color file
     color_mapping = {}
-    with open(file_path, "r") as file:
-        for line in file:
-            code, color_hex = line.strip().split(": ")
-            rgb_values = hex_to_rgb(color_hex)
-            color_mapping[rgb_values] = code
+    lines = color_string.decode("utf-8").strip().split("\n")
+    for line in lines:
+        code, color_hex = line.split(": ")
+        rgb_values = hex_to_rgb(color_hex)
+        color_mapping[rgb_values] = code
     return color_mapping
 
 
@@ -74,9 +75,9 @@ def image_to_ascii_color(color_mapping, kdtree, image, width, image_path):
 
 def init_colors(greyscale):
     if greyscale:
-        color_mapping = parse_color_file("greyscale.txt")
+        color_mapping = parse_color_file(resource_string(__name__, "greyscale.txt"))
     else:
-        color_mapping = parse_color_file("colors.txt")
+        color_mapping = parse_color_file(resource_string(__name__, "colors.txt"))
     return color_mapping
 
 
