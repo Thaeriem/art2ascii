@@ -1,0 +1,38 @@
+{
+	"name": "art2ascii",
+	"displayName": "art2ascii",
+	"description": "VSCode extension for art2ascii to display your ascii art!",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "catCoding.start",
+				"title": "catCoding"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint \"src/**/*.ts\"",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^18",
+		"@types/vscode": "^1.73.0",
+		"@typescript-eslint/eslint-plugin": "^6.7.0",
+		"@typescript-eslint/parser": "^6.7.0",
+		"@vscode/test-electron": "^2.3.9",
+		"eslint": "^8.26.0",
+		"source-map-support": "^0.5.12",
+		"typescript": "^5.4.2"
+	}
+}
