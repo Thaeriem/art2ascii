@@ -1,7 +1,7 @@
 import argparse
 import sys
-from art2ascii.gif2ascii import gif_main
-from art2ascii.img2ascii import img_main
+import art2ascii.gif2ascii as gif2ascii
+import art2ascii.img2ascii as img2ascii
 
 
 def parse_tuple(input_str):
@@ -67,9 +67,9 @@ def main():
         print("Error: Please provide a filename using the -f option.", file=sys.stderr)
         return
     if args.filename.lower().endswith(".gif"):
-        gif_main(args)
+        gif2ascii.gif_main(args)
     else:
-        img_main(args)
+        img2ascii.img_main(args)
 
 
 if __name__ == "__main__":

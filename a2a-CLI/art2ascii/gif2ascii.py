@@ -2,7 +2,7 @@ import time
 import os
 import imageio
 from PIL import Image
-from art2ascii.img2ascii import img_driver, create_image_from_ascii
+import art2ascii.img2ascii as img2ascii
 
 
 def split_gif(filename, greyscale, width):
@@ -18,7 +18,7 @@ def split_gif(filename, greyscale, width):
 
         # Copy the current frame
         frame = gif.copy()
-        ascii_gif.append(img_driver(frame, greyscale, width))
+        ascii_gif.append(img2ascii.img_driver(frame, greyscale, width))
     return ascii_gif
 
 
@@ -38,7 +38,7 @@ def print_frames(frames, loops):
 def create_gif(frames, filename, resize, border, delay=0.05):
     images = []
     for frame in frames:
-        image = create_image_from_ascii(frame, resize, border, "")
+        image = img2ascii.create_image_from_ascii(frame, resize, border, "")
         images.append(image)
 
     # Save the images as frames of a GIF
