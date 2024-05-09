@@ -6,3 +6,5 @@
 
 **/node_modules
 browser/dist
+
+vscode-extension/out

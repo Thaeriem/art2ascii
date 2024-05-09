@@ -1,6 +1,22 @@
-import { AnsiUp } from './ansi_up.js'
+import { AnsiUp } from "ansi_up";
+import express from "express";
+import fs from "fs";
+
 const ansi_up = new AnsiUp();
 
-const txt  = "\n\n\x1B[1;33;40m 33;40  \x1B[1;33;41m 33;41  \x1B[1;33;42m 33;42  \x1B[1;33;43m 33;43  \x1B[1;33;44m 33;44  \x1B[1;33;45m 33;45  \x1B[1;33;46m 33;46  \x1B[1m\x1B[0\n\n\x1B[1;33;42m >> Tests OK\n\n"
+const txt = fs.readFileSync("src/example.txt", "utf-8");
 
-let html = ansi_up.ansi_to_html(txt);
+const html = ansi_up.ansi_to_html(txt);
+const darkGreyBackgroundStyle = `<style>body { background-color: #333; }</style>`;
+
+// Wrap the HTML content with the dark grey background style
+const wrappedHtml = `<pre>${darkGreyBackgroundStyle}${html}</pre>`;
+const app = express();
+
+app.get("/", (req: any, res: any) => {
+  res.send(wrappedHtml);
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on http://localhost:3000");
+});
