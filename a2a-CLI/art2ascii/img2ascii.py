@@ -1,7 +1,7 @@
 import sys
 import os
 from PIL import Image, ImageOps
-from art2ascii.kd_tree import KDTree
+import art2ascii.kd_tree as kd_tree
 import pyautogui
 
 
@@ -36,11 +36,11 @@ def kd_tree_driver(color_mapping):
             + ((a[2] - b[2]) * 0.11) ** 2
         )
 
-    kd_tree = KDTree(list(color_mapping.keys()), dim, dist_sq_func)
-    return kd_tree
+    kdtree = kd_tree.KDTree(list(color_mapping.keys()), dim, dist_sq_func)
+    return kdtree
 
 
-def image_to_ascii_color(color_mapping, kd_tree, image, width, image_path):
+def image_to_ascii_color(color_mapping, kdtree, image, width, image_path):
     if image_path != "":
         img = Image.open(image_path)
     else:
@@ -63,13 +63,12 @@ def image_to_ascii_color(color_mapping, kd_tree, image, width, image_path):
                 if pixel in prev_colors:
                     code = prev_colors[pixel]
                 else:
-                    code = color_mapping[tuple(kd_tree.get_nearest(pixel))[1]]
+                    code = color_mapping[tuple(kdtree.get_nearest(pixel))[1]]
                     prev_colors[pixel] = code
             else:
                 code = 0
             ascii_art += ascii_color(code, char)
         ascii_art += "\n"
-
     return ascii_art
 
 
@@ -83,15 +82,15 @@ def init_colors(greyscale):
 
 def img_driver(image, greyscale, width):
     color_mapping = init_colors(greyscale)
-    kd_tree = kd_tree_driver(color_mapping)
-    ascii_art_color = image_to_ascii_color(color_mapping, kd_tree, image, width, "")
+    kdtree = kd_tree_driver(color_mapping)
+    ascii_art_color = image_to_ascii_color(color_mapping, kdtree, image, width, "")
     return ascii_art_color
 
 
 def ascii_driver(file_path, greyscale, width):
     color_mapping = init_colors(greyscale)
-    kd_tree = kd_tree_driver(color_mapping)
-    ascii_art_color = image_to_ascii_color(color_mapping, kd_tree, "", width, file_path)
+    kdtree = kd_tree_driver(color_mapping)
+    ascii_art_color = image_to_ascii_color(color_mapping, kdtree, "", width, file_path)
     return ascii_art_color
 
 
