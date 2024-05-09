@@ -1,0 +1,26 @@
+{
+  "name": "art2ascii",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "start": "npm run serve",
+    "build": "npm run build-ts && npm run tslint",
+    "serve": "node dist/test.js",
+    "watch-node": "sleep 5 && nodemon dist/server.js",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "all": "npm run format && npm run build && npm run start",
+    "dev": "npm run build && npm run start"
+  },
+  "author": "Thaeriem",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "ansi_up": "^6.0.2"
+  }
+}
