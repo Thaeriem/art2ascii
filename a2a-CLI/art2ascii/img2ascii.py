@@ -74,9 +74,9 @@ def image_to_ascii_color(color_mapping, kdtree, image, width, image_path):
 
 def init_colors(greyscale):
     if greyscale:
-        color_mapping = parse_color_file("art2ascii/greyscale.txt")
+        color_mapping = parse_color_file("greyscale.txt")
     else:
-        color_mapping = parse_color_file("art2ascii/colors.txt")
+        color_mapping = parse_color_file("colors.txt")
     return color_mapping
 
 
