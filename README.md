@@ -27,19 +27,20 @@ A command-line tool to convert images and GIFs into ASCII art.
 
 Run the following command:
 ```sh
-pip install git+https://github.com/Thaeriem/art2ascii.git@1.0.2
+pip install git+https://github.com/Thaeriem/art2ascii.git@1.0.3
 ```
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 ```sh
-art2ascii ver: 1.0.2
+art2ascii ver: 1.0.3
 ~ GitHub: https://github.com/Thaeriem/art2ascii
 ~ Issues: https://github.com/Thaeriem/art2ascii/issues
 ~ Author: Thaeriem
 
-usage: art2ascii [-h] [-f FILENAME] [-g] [-r RESIZE] [-w WIDTH] [-s] [-l LOOPS] [-b BORDER]
+usage: art2ascii [-h] [-f FILENAME] [-g] [-r RESIZE] [-w WIDTH] [-s] [-o OUTPUT] [-e] [-l LOOPS]
+                 [-b BORDER]
 
 Command line options for converting images/GIFs into ASCII art.
 
@@ -53,6 +54,9 @@ optional arguments:
   -w WIDTH, --width WIDTH
                         Width (default: 100)
   -s, --save            Save file (default: false)
+  -o OUTPUT, --output OUTPUT
+                        Output Directory
+  -e, --export          Export data file
   -l LOOPS, --loops LOOPS
                         Number of times to loop (default: 10)
   -b BORDER, --border BORDER

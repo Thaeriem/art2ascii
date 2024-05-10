@@ -132,7 +132,7 @@ def create_image_from_ascii(ascii_text, args, filename=""):
 
 
 def img_main(args):
-    if args.output != "":
+    if args.output != "" or args.export == True:
         args.save = True
     image = ascii_driver(args.filename, args.greyscale, args.width)
     if args.save:

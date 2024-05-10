@@ -32,26 +32,24 @@ def print_frames(frames, loops):
             print(frame)
 
             # Pause for a short duration between frames
-            time.sleep(0.065)
+            time.sleep(0.08)
 
 
-def create_gif(frames, filename, args, delay=0.05):
+def create_gif(frames, filename, args, delay=0.1):
     images = []
     for frame in frames:
         image = img2ascii.create_image_from_ascii(frame, args, "")
         images.append(image)
 
     if args.export == True:
-        # process data here
+        filepath = "output.data"
         if args.output != "":
-            filepath = "output.data"
-            if args.output != "":
-                filepath = args.output + "/" + filepath
-            with open(filepath, "w") as file:
+            filepath = args.output + "/" + filepath
+        with open(filepath, "w") as file:
+            file.write("@")
+            for image in images:
+                file.write(image)
                 file.write("@")
-                for image in images:
-                    file.write(image)
-                    file.write("@")
         return
 
     # Save the images as frames of a GIF
@@ -63,7 +61,7 @@ def create_gif(frames, filename, args, delay=0.05):
 
 
 def gif_main(args):
-    if args.output != "":
+    if args.output != "" or args.export == True:
         args.save = True
     frames = split_gif(args.filename, args.greyscale, args.width)
     if args.save:
