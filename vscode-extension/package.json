@@ -13,21 +13,23 @@
 	"main": "./out/extension.js",
 	"contributes": {
 		"viewsContainers": {
-		  "activitybar": [{
-			"id": "custom-activitybar",
-			"title": "art2ascii",
-			"icon": "assets/logo_bito.svg"
-		  }]
+			"activitybar": [
+				{
+					"id": "custom-activitybar",
+					"title": "art2ascii",
+					"icon": "assets/logo_bito.svg"
+				}
+			]
 		},
 		"menus": {
-            "view/title": [
-                {
-                    "command": "art2ascii.upload-art",
+			"view/title": [
+				{
+					"command": "art2ascii.upload-art",
 					"when": "view == art2ascii.artView",
-                    "group": "navigation@1"
-                }
-            ]
-        },
+					"group": "navigation@1"
+				}
+			]
+		},
 		"views": {
 			"explorer": [
 				{
@@ -38,21 +40,26 @@
 			]
 		},
 		"commands": [
-		{
-		  	"command": "art2ascii.artView.focus",
-		  	"category": "art2ascii",
-		  	"title": "Open Sidebar",
-		  	"icon": "$(clear-all)"
-		},
-		{
-			"command": "art2ascii.upload-art",
-			"title": "Upload Image/Gif",
-			"category": "art2ascii",
-			"icon": {
-				"dark": "assets/icon_light.svg",
-				"light": "assets/icon_dark.svg"
+			{
+				"command": "art2ascii.artView.focus",
+				"category": "art2ascii",
+				"title": "Open Sidebar",
+				"icon": "$(clear-all)"
+			},
+			{
+				"command": "art2ascii.upload-art",
+				"title": "Upload Image/Gif",
+				"category": "art2ascii",
+				"icon": {
+					"dark": "assets/icon_light.svg",
+					"light": "assets/icon_dark.svg"
+				}
+			},
+			{
+				"command": "art2ascii.terminal",
+				"title": "Render Art",
+				"category": "art2ascii"
 			}
-		}
 		],
 		"configuration": [
 			{
@@ -60,11 +67,15 @@
 					"art2ascii.gifPath": {
 						"type": "string",
 						"default": ""
+					},
+					"art2ascii.gifUri": {
+						"type": "string",
+						"default": ""
 					}
 				}
 			}
 		]
-	  },
+	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
@@ -72,13 +83,17 @@
 		"watch": "tsc -watch -p ./"
 	},
 	"devDependencies": {
+		"@electron/rebuild": "^3.6.0",
 		"@types/node": "^18",
 		"@types/vscode": "^1.73.0",
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
 		"@vscode/test-electron": "^2.3.9",
+		"electron-rebuild": "^3.2.9",
 		"eslint": "^8.26.0",
 		"source-map-support": "^0.5.12",
 		"typescript": "^5.4.2"
+	},
+	"dependencies": {
 	}
 }

@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import { window } from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log("Extension activated");
@@ -19,8 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
                 canSelectMany: false,
                 openLabel: "Open",
                 filters: {
-                    "GIF": ["gif"],
-                    "Images": ["png", "jpg"]
+                    "Selectable": ["gif", "png", "jpg", "jpeg"]
                 }
             };
     
@@ -37,12 +35,46 @@ export function activate(context: vscode.ExtensionContext) {
                     }
                 }
             });
-    
-    
     });
-    
+
     context.subscriptions.push(uploadArt);
+
+    let terminal = vscode.commands.registerCommand(
+        "art2ascii.terminal",
+        () => {
+            const extensionPath = vscode.extensions.getExtension('Thaeriem.art2ascii')?.extensionPath;
+            if (!extensionPath) {
+                vscode.window.showErrorMessage('Failed to retrieve extension directory path.');
+                return;
+            }
+            // add feature to cli to determine output directory
+            // also add feature to put "sprite sheet" into file
+
+            const config = vscode.workspace.getConfiguration();
+            var gifPath: string | undefined = config.get<string>('art2ascii.gifPath');
+            if (gifPath == undefined) 
+                gifPath = "";
+            const options: vscode.TerminalOptions = {
+                hideFromUser: true,
+                name: "Ext Term",
+            }
+            const terminal = vscode.window.createTerminal(options);
+
+            const predeterminedCommand = 'art2ascii -f ' + gifPath; 
+            terminal.sendText(predeterminedCommand);
+            terminal.show();
+            vscode.workspace.getConfiguration()
+            .update("art2ascii.gifUri", extensionPath + "/output.data", 
+            vscode.ConfigurationTarget.Global);
+
+        }
+    )
+
+
+    
+    context.subscriptions.push(terminal);
 }
+
 
 class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
     public static readonly viewType = "art2ascii.artView";
