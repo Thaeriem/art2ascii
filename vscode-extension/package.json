@@ -19,20 +19,51 @@
 			"icon": "assets/logo_bito.svg"
 		  }]
 		},
+		"menus": {
+            "view/title": [
+                {
+                    "command": "art2ascii.upload-art",
+					"when": "view == art2ascii.artView",
+                    "group": "navigation@1"
+                }
+            ]
+        },
 		"views": {
-		  "custom-activitybar": [{
-			"type": "webview",
-			"id": "art2ascii.openview",
-			"name": "Art2ascii",
-			"contextualTitle": "Art2ascii"
-		  }]
+			"explorer": [
+				{
+					"type": "webview",
+					"id": "art2ascii.artView",
+					"name": "art2ascii"
+				}
+			]
 		},
-		"commands": [{
-		  "command": "art2ascii.openview.focus",
-		  "category": "Art2ascii",
-		  "title": "Open Sidebar",
-		  "icon": "$(clear-all)"
-		}]
+		"commands": [
+		{
+		  	"command": "art2ascii.artView.focus",
+		  	"category": "art2ascii",
+		  	"title": "Open Sidebar",
+		  	"icon": "$(clear-all)"
+		},
+		{
+			"command": "art2ascii.upload-art",
+			"title": "Upload Image/Gif",
+			"category": "art2ascii",
+			"icon": {
+				"dark": "assets/icon_light.svg",
+				"light": "assets/icon_dark.svg"
+			}
+		}
+		],
+		"configuration": [
+			{
+				"properties": {
+					"art2ascii.gifPath": {
+						"type": "string",
+						"default": ""
+					}
+				}
+			}
+		]
 	  },
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
