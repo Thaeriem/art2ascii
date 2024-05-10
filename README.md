@@ -6,7 +6,7 @@ A command-line tool to convert images and GIFs into ASCII art.
 - Can be downloaded as image (support for GIFs is currently macOS only)[^1]
 
 <p align="center">
-<img src="a2a-CLI/docs/output/ascii_pedro.gif" alt="Popcat" width="500">
+<img src="a2a-cli/docs/output/ascii_pedro.gif" alt="Popcat" width="500">
 </p>
 
 ## Getting Started
@@ -66,7 +66,7 @@ optional arguments:
 art2ascii -f docs/images/starrynight.jpeg
 ```
 <p align="center">
-<img src="a2a-CLI/docs/output/ascii_starrynight.png" alt="Starrynight" width="800">
+<img src="a2a-cli/docs/output/ascii_starrynight.png" alt="Starrynight" width="800">
 </p>
 
 ```sh
@@ -74,8 +74,8 @@ art2ascii -f docs/images/monalisa.jpeg
 art2ascii -f docs/images/monalisa.jpeg -w 40
 ```
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-    <img src="a2a-CLI/docs/output/ascii_monalisa.png" alt="Monalisa" style="width: 400px; margin-right: 10px;">
-    <img src="a2a-CLI/docs/output/ascii_monalisa_mini.png" alt="Monalisa" style="width: 325px;">
+    <img src="a2a-cli/docs/output/ascii_monalisa.png" alt="Monalisa" style="width: 400px; margin-right: 10px;">
+    <img src="a2a-cli/docs/output/ascii_monalisa_mini.png" alt="Monalisa" style="width: 325px;">
 </div>
 
 ```sh
@@ -83,7 +83,7 @@ art2ascii -f docs/images/homer.gif
 ```
 
 <p align="center">
-<img src="a2a-CLI/docs/output/ascii_homer.gif" alt="Homer" width="600">
+<img src="a2a-cli/docs/output/ascii_homer.gif" alt="Homer" width="600">
 </p>
 
 ```sh
@@ -91,7 +91,7 @@ art2ascii -f docs/images/popcat.gif
 ```
 
 <p align="center">
-<img src="a2a-CLI/docs/output/ascii_popcat.gif" alt="Homer" width="600">
+<img src="a2a-cli/docs/output/ascii_popcat.gif" alt="Homer" width="600">
 </p>
 
 
