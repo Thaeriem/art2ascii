@@ -27,14 +27,14 @@ A command-line tool to convert images and GIFs into ASCII art.
 
 Run the following command:
 ```sh
-pip install git+https://github.com/Thaeriem/art2ascii.git@1.0.1
+pip install git+https://github.com/Thaeriem/art2ascii.git@1.0.2
 ```
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 ```sh
-art2ascii ver: 1.0.1
+art2ascii ver: 1.0.2
 ~ GitHub: https://github.com/Thaeriem/art2ascii
 ~ Issues: https://github.com/Thaeriem/art2ascii/issues
 ~ Author: Thaeriem
