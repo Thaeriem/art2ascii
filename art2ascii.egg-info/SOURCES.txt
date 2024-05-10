@@ -1,5 +1,3 @@
-LICENSE
-README.md
 pyproject.toml
 setup.cfg
 setup.py

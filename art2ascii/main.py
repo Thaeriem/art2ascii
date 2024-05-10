@@ -44,6 +44,14 @@ def parse_arguments():
         default=False,
         help="Save file (default: false)",
     )
+    parser.add_argument("-o", "--output", type=str, default="", help="Output Directory")
+    parser.add_argument(
+        "-e",
+        "--export",
+        action="store_true",
+        default=False,
+        help="Export data file",
+    )
     parser.add_argument(
         "-l",
         "--loops",
