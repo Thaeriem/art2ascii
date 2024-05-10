@@ -44,6 +44,14 @@ def parse_arguments():
         default=False,
         help="Save file (default: false)",
     )
+    parser.add_argument("-o", "--output", type=str, help="Output Directory")
+    parser.add_argument(
+        "-e",
+        "--export",
+        action="store_true",
+        default=False,
+        help="Export data file",
+    )
     parser.add_argument(
         "-l",
         "--loops",
@@ -59,6 +67,9 @@ def parse_arguments():
         help='Border input (format: "left,top,right,bottom")',
     )
     return parser.parse_args()
+
+
+# also add feature to put "sprite sheet" into file
 
 
 def main():

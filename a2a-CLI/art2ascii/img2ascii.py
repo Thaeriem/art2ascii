@@ -95,25 +95,47 @@ def ascii_driver(file_path, greyscale, width):
     return ascii_art_color
 
 
-def create_image_from_ascii(ascii_text, resize, border, filename=""):
+def create_image_from_ascii(ascii_text, args, filename=""):
 
+    # managing export for data file
+    if args.export == True:
+        if filename != "":
+            filepath = "output.data"
+            if args.output != "":
+                filepath = args.output + "/" + filepath
+            with open(filepath, "w") as file:
+                file.write("@")
+                file.write(ascii_text)
+                file.write("@")
+        return ascii_text
+
+    # managing screenshot functionality
     os.system("cls" if os.name == "nt" else "clear")
     sys.stdout.write(ascii_text)
     sys.stdout.flush()
     image = pyautogui.screenshot()
-    image = ImageOps.crop(image, border)
-    image = image.resize((int(image.width * resize), int(image.height * resize)))
+    image = ImageOps.crop(image, args.border)
+    image = image.resize(
+        (int(image.width * args.resize), int(image.height * args.resize))
+    )
     os.system("cls" if os.name == "nt" else "clear")
+
+    # saving image for images
     if filename != "":
         path = filename.split("/")
         filetype = path[len(path) - 1].split(".")
-        image.save("ascii_" + filetype[0] + ".png")
+        filepath = "ascii_" + filetype[0] + ".png"
+        if args.output != "":
+            filepath = args.output + "/" + filepath
+        image.save(filepath)
     return image
 
 
 def img_main(args):
+    if args.output != "":
+        args.save = True
     image = ascii_driver(args.filename, args.greyscale, args.width)
     if args.save:
-        create_image_from_ascii(image, args.resize, args.border, args.filename)
+        create_image_from_ascii(image, args, args.filename)
     else:
         print(image)

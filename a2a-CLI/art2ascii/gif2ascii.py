@@ -35,21 +35,38 @@ def print_frames(frames, loops):
             time.sleep(0.065)
 
 
-def create_gif(frames, filename, resize, border, delay=0.05):
+def create_gif(frames, filename, args, delay=0.05):
     images = []
     for frame in frames:
-        image = img2ascii.create_image_from_ascii(frame, resize, border, "")
+        image = img2ascii.create_image_from_ascii(frame, args, "")
         images.append(image)
+
+    if args.export == True:
+        # process data here
+        if args.output != "":
+            filepath = "output.data"
+            if args.output != "":
+                filepath = args.output + "/" + filepath
+            with open(filepath, "w") as file:
+                file.write("@")
+                for image in images:
+                    file.write(image)
+                    file.write("@")
+        return
 
     # Save the images as frames of a GIF
     path = filename.split("/")
     filename = "ascii_" + path[len(path) - 1]
+    if args.output != "":
+        filename = args.output + "/" + filename
     imageio.mimsave(filename, images, loop=0, duration=delay)
 
 
 def gif_main(args):
+    if args.output != "":
+        args.save = True
     frames = split_gif(args.filename, args.greyscale, args.width)
     if args.save:
-        create_gif(frames, args.filename, args.resize, args.border)
+        create_gif(frames, args.filename, args)
     else:
         print_frames(frames, args.loops)
