@@ -1,4 +1,7 @@
 import * as vscode from "vscode";
+import {
+    default as AnsiUp
+} from 'ansi_up';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log("Extension activated");
@@ -47,8 +50,6 @@ export function activate(context: vscode.ExtensionContext) {
                 vscode.window.showErrorMessage('Failed to retrieve extension directory path.');
                 return;
             }
-            // add feature to cli to determine output directory
-            // also add feature to put "sprite sheet" into file
 
             const config = vscode.workspace.getConfiguration();
             var gifPath: string | undefined = config.get<string>('art2ascii.gifPath');
@@ -60,7 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
             }
             const terminal = vscode.window.createTerminal(options);
 
-            const predeterminedCommand = 'art2ascii -f ' + gifPath; 
+            const predeterminedCommand = 'art2ascii -f ' + gifPath + ' -w 10 -e -o ' + extensionPath; 
             terminal.sendText(predeterminedCommand);
             terminal.show();
             vscode.workspace.getConfiguration()
@@ -92,17 +93,42 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
             enableScripts: true,
             localResourceRoots: [this._extensionUri],
         };
-        webviewView.webview.html = this.getHtmlContent(webviewView.webview);
-        setInterval(() => {
-          }, 1000);
+
+        this.readFileAsDataUri("output.data").then((output:string) => {
+
+            const ansi_up = new AnsiUp();
+            const frames = output.split('@').map(frame => {
+                // Convert each frame to HTML
+                const html = ansi_up.ansi_to_html(frame);
+                // Wrap HTML content with dark grey background style
+                const darkGreyBackgroundStyle = `<style>body { background-color: #333; }</style>`;
+                return `<pre>${darkGreyBackgroundStyle}${html}</pre>`;
+            });
+            let currentIndex = 0;
+            setInterval(() => {
+                // Display current frame
+                webviewView.webview.html = frames[currentIndex];
+                // Move to next frame
+                currentIndex = (currentIndex + 1) % frames.length;
+            }, 1000); // Adjust interval as needed
+            
+        });
+    }
+    private async readFileAsDataUri(filename: string): Promise<string> {
+        try {
+            const fileUri = vscode.Uri.joinPath(this._extensionUri, filename);
+            const fileContent = await vscode.workspace.fs.readFile(fileUri);
+            const contentString = Buffer.from(fileContent).toString('utf-8');
+            return contentString;
+        } catch (error) {
+            console.error(`Error reading file ${filename}: ${error}`);
+            return ''; // Return an empty string in case of error
+        }
     }
 
-    private getHtmlContent(webview: vscode.Webview): string {
+    private getHtmlContent(webview: vscode.Webview, dataUri: string): string {
         const stylesheetUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri, "assets", "main.css")
-        );
-        const yourGif = webview.asWebviewUri(
-            vscode.Uri.joinPath(this._extensionUri, "assets", "ascii_popcat.gif")
         );
 
         return `
@@ -113,7 +139,7 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
             </head>
             <body>
                 <section>
-                    <img src="${yourGif}" />
+                    <pre style="white-space: pre-wrap;">${dataUri}</pre>
                 </section>
             </body>
         </html>

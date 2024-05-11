@@ -71,6 +71,10 @@
 					"art2ascii.gifUri": {
 						"type": "string",
 						"default": ""
+					},
+					"art2ascii.frames": {
+						"type":"array",
+						"default":[]
 					}
 				}
 			}
@@ -95,5 +99,6 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
+		"ansi_up": "^5.2.1"
 	}
 }
