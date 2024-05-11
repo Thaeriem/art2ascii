@@ -46,10 +46,10 @@ def create_gif(frames, filename, args, delay=0.1):
         if args.output != "":
             filepath = args.output + "/" + filepath
         with open(filepath, "w") as file:
-            file.write("@")
+            file.write("@FRAME@")
             for image in images:
                 file.write(image)
-                file.write("@")
+                file.write("@FRAME@")
         return
 
     # Save the images as frames of a GIF
