@@ -104,9 +104,9 @@ def create_image_from_ascii(ascii_text, args, filename=""):
             if args.output != "":
                 filepath = args.output + "/" + filepath
             with open(filepath, "w") as file:
-                file.write("@")
+                file.write("@FRAME@")
                 file.write(ascii_text)
-                file.write("@")
+                file.write("@FRAME@")
         return ascii_text
 
     # managing screenshot functionality
