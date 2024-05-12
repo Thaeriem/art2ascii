@@ -3,6 +3,7 @@
 /*.jpeg
 /*.png
 **/.venv
+*.env
 
 **/node_modules
 browser/dist
