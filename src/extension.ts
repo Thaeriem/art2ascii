@@ -67,6 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
             setTimeout(()=> {
                 terminalInstance.dispose();
                 vscode.window.showInformationMessage("Compiled ASCII image!");
+                vscode.commands.executeCommand('workbench.action.reloadWindow');
 
             }, 20000);
         });
