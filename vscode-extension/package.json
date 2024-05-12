@@ -2,10 +2,14 @@
 	"name": "art2ascii",
 	"displayName": "art2ascii",
 	"description": "VSCode extension for art2ascii to display your ascii art!",
-	"version": "0.0.1",
-	"publisher": "Thaeriem",
+	"version": "1.0.3",
+	"publisher": "thaeriem",
 	"engines": {
 		"vscode": "^1.74.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Thaeriem/art2ascii.git"
 	},
 	"categories": [
 		"Other"
