@@ -18,9 +18,15 @@ art2ascii is a Visual Studio Code extension that allows users to select a GIF an
 ## Usage
 
 1. Install the art2ascii extension from the Visual Studio Code Marketplace.
-2. Open a workspace or create a new one.
-3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
-4. Your ASCII GIF will be compiling in the background and when completed it will reload the page.
+2. Install the art2ascii cli with: `pip install git+https://github.com/Thaeriem/art2ascii.git@1.0.3`
+3. Open a workspace or create a new one.
+4. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
+5. Your ASCII GIF will be compiling in the background and when completed it will reload the page.
+
+<video controls>
+  <source src="assets/techdemo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Requirements
 

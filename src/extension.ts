@@ -36,10 +36,10 @@ export function activate(context: vscode.ExtensionContext) {
                         const selectedGifPath = fileUri[0].fsPath;
                         config.update("art2ascii.gifPath", selectedGifPath, 
                         vscode.ConfigurationTarget.Global);
+                        runTerminal();
                     }
                 }
             });
-            vscode.commands.executeCommand("art2ascii.terminal");
     });
 
     context.subscriptions.push(uploadArt);
@@ -63,15 +63,36 @@ export function activate(context: vscode.ExtensionContext) {
 
             const predeterminedCommand = 'art2ascii -f ' + gifPath + ' -w 35 -e -o ' + extensionPath; 
             terminalInstance.sendText(predeterminedCommand);
-
-            setTimeout(()=> {
+            setTimeout(() => {
                 terminalInstance.dispose();
-                vscode.window.showInformationMessage("Compiled ASCII image!");
                 vscode.commands.executeCommand('workbench.action.reloadWindow');
-            }, 20000);
+            },10000);
         });
     
     context.subscriptions.push(terminal);
+
+}
+
+async function runTerminal() {
+    return vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        cancellable: false
+    }, async (progress, token) => {
+        try {
+            vscode.commands.executeCommand('art2ascii.terminal');
+            progress.report({ increment: 0 });
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            progress.report({ increment: 20, message: "Compiling ASCII image." });
+            await new Promise(resolve => setTimeout(resolve, 4000));
+            progress.report({ increment: 35, message: "Compiling ASCII image.." });
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            progress.report({ increment: 45, message: "Compiling ASCII image..." });
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
 }
 
 class CustomSidebarViewProvider implements vscode.WebviewViewProvider {

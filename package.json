@@ -59,6 +59,11 @@
 					"dark": "assets/icon_light.svg",
 					"light": "assets/icon_dark.svg"
 				}
+			},
+			{
+				"command": "art2ascii.terminal",
+				"category": "art2ascii",
+				"title": "Render ASCII"
 			}
 		],
 		"configuration": [
