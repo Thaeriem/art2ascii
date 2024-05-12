@@ -100,8 +100,7 @@ def create_image_from_ascii(ascii_text, args, filename=""):
     # managing export for data file
     if args.export == True:
         if filename != "":
-            f = filename.split("/")
-            filepath = f[len(f) - 1].split(".")[0] + ".data"
+            filepath = "output.data"
             if args.output != "":
                 filepath = args.output + "/" + filepath
             with open(filepath, "w") as file:
