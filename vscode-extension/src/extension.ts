@@ -110,9 +110,7 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         let frames = output.split('@FRAME@').map(frame => {
             // Convert each frame to HTML
             const html = ansi_up.ansi_to_html(frame);
-            // Wrap HTML content with dark grey background style
-            const darkGreyBackgroundStyle = `<style>body { background-color: #333; }</style>`;
-            return `<pre>${darkGreyBackgroundStyle}${html}</pre>`;
+            return `<pre>${html}</pre>`;
         });
         frames.shift();
         frames.pop();
