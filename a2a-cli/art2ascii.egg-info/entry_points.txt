@@ -1,2 +1,0 @@
-[console_scripts]
-art2ascii = art2ascii.main:main

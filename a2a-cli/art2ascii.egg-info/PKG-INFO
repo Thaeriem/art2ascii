@@ -1,9 +1,0 @@
-Metadata-Version: 2.1
-Name: art2ascii
-Version: 1.0.3
-Summary: A command-line tool to convert images and GIFs into ASCII art.
-Author: Yash Kaul
-Classifier: Programming Language :: Python :: 3
-Requires-Dist: imageio
-Requires-Dist: pyautogui
-Requires-Dist: pillow
