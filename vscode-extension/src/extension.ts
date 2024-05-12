@@ -3,27 +3,37 @@ import { default as AnsiUp } from 'ansi_up';
 import * as fs from 'fs';
 
 
+
 export function activate(context: vscode.ExtensionContext) {
     console.log("Extension activated");
     const extensionPath = vscode.extensions.getExtension('Thaeriem.art2ascii')?.extensionPath;
     const config = vscode.workspace.getConfiguration();
     config.update("art2ascii.gifUri", extensionPath + "/output.data", 
     vscode.ConfigurationTarget.Global);
+    let terminalInstance: vscode.Terminal;
     const provider = new CustomSidebarViewProvider(context.extensionUri);
-
+    var reload = 0;
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
             CustomSidebarViewProvider.viewType,
             provider
         )
     );
-
     fs.watch(extensionPath + "/output.data", (eventType, filename) => {
         if (eventType === 'change') {
-          console.log(`File ${filename} has been updated`);
-          provider.stopInterval().then(() => {provider.startInterval()});
+            console.log("File changed!, Reload: " + reload);
+            reload += 1
+            if (reload === 3) {
+                console.log("INNER");
+                reload = 0;
+                setTimeout(() => {
+                    provider.stopInterval();
+                    provider.startInterval();
+                    terminalInstance.dispose();
+                }, 5000);
+            }
         }
-      });
+    });
 
     let uploadArt = vscode.commands.registerCommand(
         "art2ascii.upload-art",
@@ -43,18 +53,12 @@ export function activate(context: vscode.ExtensionContext) {
                 else {
                     if (fileUri && fileUri.length > 0) {
                         const selectedGifPath = fileUri[0].fsPath;
-                        vscode.workspace.getConfiguration()
-                        .update("art2ascii.gifPath", selectedGifPath, 
+                        config.update("art2ascii.gifPath", selectedGifPath, 
                         vscode.ConfigurationTarget.Global);
+                        vscode.window.showInformationMessage(`Selected file: ${selectedGifPath}`);
                     }
                 }
             });
-            try {
-                await vscode.commands.executeCommand('art2ascii.terminal');
-            } catch (error) {
-                vscode.window.showErrorMessage("Issue with rendering image.");
-            }
-
     });
 
     context.subscriptions.push(uploadArt);
@@ -74,11 +78,15 @@ export function activate(context: vscode.ExtensionContext) {
                 hideFromUser: true,
                 name: "Ext Term",
             }
-            const terminal = vscode.window.createTerminal(options);
+            terminalInstance = vscode.window.createTerminal(options);
 
             const predeterminedCommand = 'art2ascii -f ' + gifPath + ' -w 35 -e -o ' + extensionPath; 
-            terminal.sendText(predeterminedCommand);
-    });
+            terminalInstance.sendText(predeterminedCommand);
+            terminalInstance.show();
+
+            reload = 1;
+
+        });
     
     context.subscriptions.push(terminal);
 }
@@ -103,7 +111,7 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         this.updateWebviewContent();
     }
 
-    public async stopInterval() {
+    public stopInterval() {
         if (this._intervalId) {
             clearInterval(this._intervalId);
             this._intervalId = undefined;
@@ -116,7 +124,14 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
 
     private async updateWebviewContent(): Promise<void> {
 
-        const frames = await this.getFrames("output.data");
+        const config = vscode.workspace.getConfiguration();
+        var gifPath: string | undefined = config.get<string>('art2ascii.gifPath');
+        if (gifPath == undefined) return;
+        const filename = gifPath.split("/").pop();
+        if (filename == undefined) return;
+        let file = filename.split(".")[0] + ".data";
+
+        const frames = await this.getFrames(file);
         let currentIndex = 0;
         const interval = setInterval(() => {
 
@@ -148,6 +163,7 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
             const fileUri = vscode.Uri.joinPath(this._extensionUri, filename);
             const fileContent = await vscode.workspace.fs.readFile(fileUri);
             const contentString = Buffer.from(fileContent).toString('utf-8');
+            console.log("READ: " + contentString.length);
             return contentString;
         } catch (error) {
             console.error(`Error reading file ${filename}: ${error}`);
