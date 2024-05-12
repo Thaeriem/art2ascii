@@ -42,7 +42,8 @@ def create_gif(frames, filename, args, delay=0.1):
         images.append(image)
 
     if args.export == True:
-        filepath = "output.data"
+        f = filename.split("/")
+        filepath = f[len(f) - 1].split(".")[0] + ".data"
         if args.output != "":
             filepath = args.output + "/" + filepath
 
