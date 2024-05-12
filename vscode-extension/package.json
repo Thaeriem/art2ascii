@@ -72,9 +72,8 @@
 						"type": "string",
 						"default": ""
 					},
-					"art2ascii.frames": {
-						"type":"array",
-						"default":[]
+					"art2ascii.reload": {
+						"type": "number"
 					}
 				}
 			}
