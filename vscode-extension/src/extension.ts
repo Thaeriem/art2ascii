@@ -39,6 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
                     }
                 }
             });
+            vscode.commands.executeCommand("art2ascii.terminal");
     });
 
     context.subscriptions.push(uploadArt);
@@ -67,7 +68,7 @@ export function activate(context: vscode.ExtensionContext) {
                 terminalInstance.dispose();
                 vscode.window.showInformationMessage("Compiled ASCII image!");
 
-            }, 10000);
+            }, 20000);
         });
     
     context.subscriptions.push(terminal);
