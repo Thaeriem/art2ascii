@@ -5,7 +5,7 @@
 art2ascii is a Visual Studio Code extension that allows users to select a GIF and play it in ASCII form directly within the Tree View tab of the workspace. 
 
 <p align="center">
-<img src="assets/ascii_pedro.gif" alt="Pedro">
+<img src="vsce-extension/assets/ascii_pedro.gif" alt="Pedro">
 </p>
 
 ## Features
@@ -23,10 +23,9 @@ art2ascii is a Visual Studio Code extension that allows users to select a GIF an
 4. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
 5. Your ASCII GIF will be compiling in the background and when completed it will reload the page.
 
-<video controls>
-  <source src="assets/techdemo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<p align="center">
+<img src="vsce-extension/assets/techdemo.gif" alt="Tech Demo">
+</p>
 
 ## Requirements
 
