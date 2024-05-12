@@ -66,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
             setTimeout(() => {
                 terminalInstance.dispose();
                 vscode.commands.executeCommand('workbench.action.reloadWindow');
-            },15000);
+            },10000);
         });
     
     context.subscriptions.push(terminal);
@@ -80,14 +80,14 @@ async function runTerminal() {
     }, async (progress, token) => {
         try {
             vscode.commands.executeCommand('art2ascii.terminal');
-            progress.report({ increment: 10 });
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            progress.report({ increment: 0 });
+            await new Promise(resolve => setTimeout(resolve, 2000));
             progress.report({ increment: 20, message: "Compiling ASCII image." });
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            progress.report({ increment: 30, message: "Compiling ASCII image.." });
             await new Promise(resolve => setTimeout(resolve, 4000));
-            progress.report({ increment: 40, message: "Compiling ASCII image..." });
+            progress.report({ increment: 35, message: "Compiling ASCII image.." });
             await new Promise(resolve => setTimeout(resolve, 3000));
+            progress.report({ increment: 45, message: "Compiling ASCII image..." });
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
         } catch (error) {
             console.error("An error occurred:", error);
