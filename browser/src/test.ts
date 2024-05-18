@@ -1,5 +1,5 @@
 import * as argparse from 'argparse';
-import * as sys from 'sys';
+// import * as sys from 'sys';
 // import * as gif2ascii from './art2ascii/gif2ascii';
 // import * as img2ascii from './art2ascii/img2ascii';
 
