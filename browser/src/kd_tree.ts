@@ -124,16 +124,26 @@ export class KDTree {
     k: number,
     returnDistSq: boolean = true
   ): [number, Point][] | Point[] {
-    return this.getKnn(this.root, point, k, returnDistSq, new Heap(customComp)) as
-      | [number, Point][]
-      | Point[];
+    return this.getKnn(
+      this.root,
+      point,
+      k,
+      returnDistSq,
+      new Heap(customComp)
+    ) as [number, Point][] | Point[];
   }
 
   public getNearest(
     point: Point,
     returnDistSq: boolean = true
   ): [number, Point] | Point | undefined {
-    const l = this.getKnn(this.root, point, 1, returnDistSq, new Heap(customComp));
+    const l = this.getKnn(
+      this.root,
+      point,
+      1,
+      returnDistSq,
+      new Heap(customComp)
+    );
     return (l.length ? l[0] : undefined) as Point | undefined;
   }
 }
