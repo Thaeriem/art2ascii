@@ -1,3 +1,7 @@
+import { Heap } from "heap-js";
+
+const customComp = (a: any, b: any) => b[0] - a[0];
+
 export type Point = number[];
 type Vertex = [Vertex | undefined, Vertex | undefined, Point] | undefined;
 
@@ -57,25 +61,22 @@ export class KDTree {
     point: Point,
     k: number,
     returnDistSq: boolean,
-    heap: [number, number, Point][],
+    heap: Heap<[number, number, Point]>,
     i: number = 0,
     tiebreaker: number = 1
   ): [number, number, Point][] | Point[] {
     if (vertex !== undefined) {
       const distSq = this.distSqFunc(point, vertex[2]);
       const dx = vertex[2][i] - point[i];
-      if (heap.length < k) {
-        heap.push([-distSq, tiebreaker, vertex[2]]);
-        heap.sort((a, b) => b[0] - a[0]);
-      } else if (distSq < -heap[0][0]) {
-        heap.push([-distSq, tiebreaker, vertex[2]]);
-        heap.sort((a, b) => b[0] - a[0]);
-        heap.pop();
+      if (heap.size() < k) {
+        heap.push([distSq, tiebreaker, vertex[2]]);
+      } else if (distSq < heap.peek()[0]) {
+        heap.pushpop([distSq, tiebreaker, vertex[2]]);
       }
       i = (i + 1) % this.dim;
       for (const b of [dx < 0, dx >= 0].slice(
         0,
-        1 + +!!(dx * dx < -heap[0][0])
+        1 + +!!(dx * dx < heap.peek()[0])
       )) {
         this.getKnn(
           vertex[b ? 1 : 0],
@@ -90,8 +91,8 @@ export class KDTree {
     }
     if (tiebreaker === 1) {
       return heap
-        .sort((a, b) => a[0] - b[0])
-        .map((h) => (returnDistSq ? [-h[0], h[2]] : h[2]))
+        .toArray()
+        .map((h) => (returnDistSq ? [h[0], h[2]] : h[2]))
         .reverse() as [number, number, Point][] | Point[];
     }
     return [];
@@ -123,7 +124,7 @@ export class KDTree {
     k: number,
     returnDistSq: boolean = true
   ): [number, Point][] | Point[] {
-    return this.getKnn(this.root, point, k, returnDistSq, []) as
+    return this.getKnn(this.root, point, k, returnDistSq, new Heap(customComp)) as
       | [number, Point][]
       | Point[];
   }
@@ -132,7 +133,7 @@ export class KDTree {
     point: Point,
     returnDistSq: boolean = true
   ): [number, Point] | Point | undefined {
-    const l = this.getKnn(this.root, point, 1, returnDistSq, []);
+    const l = this.getKnn(this.root, point, 1, returnDistSq, new Heap(customComp));
     return (l.length ? l[0] : undefined) as Point | undefined;
   }
 }

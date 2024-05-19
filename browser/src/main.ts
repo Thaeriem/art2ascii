@@ -1,6 +1,6 @@
 // import * as gif2ascii from './art2ascii/gif2ascii';
 // import * as img2ascii from './art2ascii/img2ascii';
-import { Point, KDTree } from "./kd_tree";
+import { Point, KDTree } from "./kd_tree.js";
 
 interface Args {
   filename: string;
@@ -50,24 +50,3 @@ async function exampleUsage() {
     console.error("Error:", error);
   }
 }
-
-const points: Point[] = [
-  [2, 3],
-  [5, 4],
-  [9, 6],
-  [4, 7],
-  [8, 1],
-  [7, 2],
-];
-const tree = new KDTree(points, 2);
-
-// Add a new point
-tree.addPointPublic([3, 6]);
-
-// Find the nearest neighbor
-const nearest = tree.getNearest([2, 4]);
-console.log(nearest);
-
-// Find the 3 nearest neighbors
-const knn = tree.getKnnPublic([2, 4], 3);
-console.log(knn);
