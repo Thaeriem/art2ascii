@@ -1,16 +1,14 @@
 // import * as gif2ascii from './art2ascii/gif2ascii';
 // import * as img2ascii from './art2ascii/img2ascii';
-import { Point, KDTree } from "./kd_tree.js";
+import { imgDriver } from "./img2ascii.js";
 
 interface Args {
   filename: string;
-  resize?: number;
   width?: number;
 }
 
 // Set default values for the optional arguments
 const defaultArgs: Partial<Args> = {
-  resize: 1.0,
   width: 35,
 };
 
@@ -40,7 +38,6 @@ export async function main(args: Args) {
 async function exampleUsage() {
   const args: Args = {
     filename: "example.png",
-    resize: 0.5,
     width: 200,
   };
 

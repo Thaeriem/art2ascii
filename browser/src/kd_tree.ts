@@ -146,4 +146,19 @@ export class KDTree {
     );
     return (l.length ? l[0] : undefined) as Point | undefined;
   }
+  public printTree(
+    node: Vertex = this.root,
+    level: number = 0,
+    prefix: string = "Root: "
+  ): void {
+    if (node !== undefined) {
+      console.log(" ".repeat(level * 4) + prefix + node[2]);
+      if (node[0] !== undefined) {
+        this.printTree(node[0], level + 1, "L--- ");
+      }
+      if (node[1] !== undefined) {
+        this.printTree(node[1], level + 1, "R--- ");
+      }
+    }
+  }
 }

@@ -1,3 +1,5 @@
+import { KDTree } from "./kd_tree.js";
+
 type RGBTuple = [number, number, number];
 type ColorMapping = { [key: string]: string };
 
@@ -24,5 +26,43 @@ function asciiColor(colorCode: string, text: string): string {
   return `\x1b[38;5;${colorCode}m${text}\x1b[0m`;
 }
 
-const colorMapping: ColorMapping = parseColorFile(colorText);
-console.log(colorMapping);
+function kdTreeDriver(colorMapping: { [key: string]: string }): KDTree {
+  const dim = 3;
+
+  function distSqFunc(
+    a: [number, number, number],
+    b: [number, number, number]
+  ): number {
+    return (
+      ((a[0] - b[0]) * 0.3) ** 2 +
+      ((a[1] - b[1]) * 0.59) ** 2 +
+      ((a[2] - b[2]) * 0.11) ** 2
+    );
+  }
+
+  const kdtree = new KDTree(
+    Object.keys(colorMapping).map((key) =>
+      key.slice(1, -1).split(",").map(Number)
+    ),
+    dim,
+    distSqFunc
+  );
+  return kdtree;
+}
+
+function imageToAsciiColor(
+  colorMapping: { [key: string]: string },
+  kdtree: KDTree,
+  filePath: string,
+  width: number
+): string {
+  
+
+}
+
+export function imgDriver(filePath: string, width: number): string {
+  const colorMapping: ColorMapping = parseColorFile(colorText);
+  const kdtree = kdTreeDriver(colorMapping);
+  const asciiArtColor = imageToAsciiColor(colorMapping, kdtree, filePath, width);
+  return asciiArtColor;
+}
