@@ -6,7 +6,7 @@
 	"scripts": {
 	  "start": "npm run serve",
 	  "build": "npm run build-ts && npm run tslint",
-	  "serve": "node dist/test.js",
+	  "serve": "node dist/main.js",
 	  "watch-node": "sleep 5 && nodemon dist/server.js",
 	  "build-ts": "tsc",
 	  "watch-ts": "tsc -w",
