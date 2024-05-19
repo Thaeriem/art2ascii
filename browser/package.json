@@ -2,7 +2,7 @@
 	"name": "art2ascii-typescript",
 	"version": "1.0.3",
 	"description": "",
-	"main": "test.js",
+	"main": "main.js",
 	"scripts": {
 	  "start": "npm run serve",
 	  "build": "npm run build-ts && npm run tslint",
