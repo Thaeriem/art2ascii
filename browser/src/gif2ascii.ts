@@ -1,6 +1,7 @@
 import gifFrames from "gif-frames";
 import sharp from "sharp";
 import { imgDriver } from "./img2ascii.js";
+import fs from "fs";
 
 async function splitGif(filename: string, width: number): Promise<string[]> {
   // Extract frames from the GIF
@@ -8,6 +9,7 @@ async function splitGif(filename: string, width: number): Promise<string[]> {
     url: filename,
     frames: "all",
     outputType: "png",
+    cumulative: true,
   });
 
   const asciiGif: string[] = [];

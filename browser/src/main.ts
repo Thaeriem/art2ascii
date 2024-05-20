@@ -48,4 +48,7 @@ async function exampleUsage() {
   }
 }
 
-gifMain("/Users/thaeriem/Desktop/pedro.gif", 35);
+gifMain(
+  "/Users/thaeriem/Documents/GitHub/art2ascii/a2a-cli/docs/images/squirtle.gif",
+  35
+);
