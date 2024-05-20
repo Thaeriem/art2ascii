@@ -26,8 +26,10 @@
 		"ansi_up": "^6.0.2",
 		"eslint": "^8.41.0",
 		"express": "^4.19.2",
+		"gif-frames": "^0.4.1",
 		"heap-js": "^2.5.0",
 		"prettier": "^2.8.8",
+		"sharp": "^0.33.4",
 		"tslint": "^6.1.3"
 	}
 }

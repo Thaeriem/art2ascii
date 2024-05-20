@@ -1,6 +1,6 @@
 // import * as gif2ascii from './art2ascii/gif2ascii';
 // import * as img2ascii from './art2ascii/img2ascii';
-import { imgDriver } from "./img2ascii.js";
+import { gifMain } from "./gif2ascii.js";
 
 interface Args {
   filename: string;
@@ -47,3 +47,5 @@ async function exampleUsage() {
     console.error("Error:", error);
   }
 }
+
+gifMain("/Users/thaeriem/Desktop/pedro.gif", 35);
