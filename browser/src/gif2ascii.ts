@@ -17,7 +17,8 @@ async function splitGif(filename: string, width: number): Promise<string[]> {
   // Iterate over each frame in the GIF
   for (const frame of frames) {
     // Get the image data of the current frame as a buffer
-    const frameData = frame.getImage().pipe(sharp());
+    const frameData = frame.getImage().pipe(sharp({ animated: true }));
+    console.log(frameData);
 
     // Convert the frame to sRGB color space
     const img = frameData.toColourspace("srgb");
