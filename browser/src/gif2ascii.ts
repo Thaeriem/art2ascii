@@ -34,6 +34,7 @@ async function splitGif(filename: string, width: number): Promise<string[]> {
     });
 
     const img = sharp(`frame-${index}.png`);
+    console.log(img);
 
     // const img = frameData.toColourspace("srgb");
 
