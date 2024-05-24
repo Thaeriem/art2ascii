@@ -1,7 +1,7 @@
 **/__pycache__
-/*.gif
-/*.jpeg
-/*.png
+*.gif
+*.jpeg
+*.png
 **/.venv
 *.env
 
