@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { default as AnsiUp } from 'ansi_up';
+import { art2ascii } from "./art2ascii/main";
 
 export function activate(context: vscode.ExtensionContext) {
     console.log("Extension activated");
