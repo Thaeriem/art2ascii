@@ -1,9 +1,10 @@
 import gifFrames from "gif-frames";
 import sharp from "sharp";
 import { imgDriver } from "./img2ascii.js";
-import fs from "fs";
 
 async function splitGif(filename: string, width: number): Promise<string[]> {
+  const asciiGif: string[] = [];
+
   // Extract frames from the GIF
   const frames = await gifFrames({
     url: filename,
@@ -12,37 +13,14 @@ async function splitGif(filename: string, width: number): Promise<string[]> {
     cumulative: true,
   });
 
-  const asciiGif: string[] = [];
-
-  // Iterate over each frame in the GIF
-  let index = 0;
   for (const frame of frames) {
     // Get the image data of the current frame as a buffer
-    // const frameData = frame.getImage().pipe(sharp({ animated: true }));
-    const stream = await frame
-      .getImage()
-      .pipe(fs.createWriteStream(`frame-${index}.png`));
-    // Convert the frame to sRGB color space
-    await new Promise((resolve, reject) => {
-      stream
-        .on("finish", () => {
-          resolve(1);
-        })
-        .on("error", (err: any) => {
-          reject(err);
-        });
-    });
-
-    const img = sharp(`frame-${index}.png`);
-    console.log(img);
-
-    // const img = frameData.toColourspace("srgb");
+    const frameData = frame.getImage().pipe(sharp({ animated: true }));
+    const img = frameData.png({ quality: 100 });
 
     const asciiArt = await imgDriver(img, width);
     asciiGif.push(asciiArt);
-    index += 1;
   }
-
   return asciiGif;
 }
 
@@ -56,6 +34,5 @@ export async function gifMain(
     retStr += frame;
     retStr += "@FRAME@\n";
   }
-  console.log(retStr);
   return retStr;
 }

@@ -124,3 +124,11 @@ export async function imgDriver(
   );
   return asciiArtColor;
 }
+
+export async function imgMain(
+  filename: string,
+  width: number
+): Promise<string> {
+  const img = sharp(filename);
+  return imgDriver(img, width);
+}

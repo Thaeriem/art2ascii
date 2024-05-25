@@ -1,8 +1,7 @@
-// import * as gif2ascii from './art2ascii/gif2ascii';
-// import * as img2ascii from './art2ascii/img2ascii';
+import { imgMain } from "./img2ascii.js";
 import { gifMain } from "./gif2ascii.js";
 
-interface Args {
+export interface Args {
   filename: string;
   width?: number;
 }
@@ -17,7 +16,7 @@ function validateArgs(args: Args): Args {
   return { ...defaultArgs, ...args };
 }
 
-export async function main(args: Args) {
+export async function art2ascii(args: Args) {
   args = validateArgs(args);
 
   if (!args.filename) {
@@ -25,30 +24,8 @@ export async function main(args: Args) {
   }
 
   if (args.filename.toLowerCase().endsWith(".gif")) {
-    // Call your gif2ascii function
-    console.log("Processing GIF:", args);
-    // await gif2ascii.gifMain(args);
+    return await gifMain(args.filename, args.width);
   } else {
-    // Call your img2ascii function
-    console.log("Processing Image:", args);
-    // await img2ascii.imgMain(args);
+    return await imgMain(args.filename, args.width);
   }
 }
-
-async function exampleUsage() {
-  const args: Args = {
-    filename: "example.png",
-    width: 200,
-  };
-
-  try {
-    await main(args);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
-gifMain(
-  "/Users/thaeriem/Documents/GitHub/art2ascii/a2a-cli/docs/images/squirtle.gif",
-  35
-);
