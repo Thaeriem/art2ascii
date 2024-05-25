@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { default as AnsiUp } from 'ansi_up';
-import { art2ascii } from "./art2ascii/main";
+import { Args, art2ascii } from "./art2ascii/main";
+import fs from 'fs/promises';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log("Extension activated");
@@ -8,7 +9,6 @@ export function activate(context: vscode.ExtensionContext) {
     const config = vscode.workspace.getConfiguration();
     config.update("art2ascii.gifUri", extensionPath + "/output.data", 
     vscode.ConfigurationTarget.Global);
-    let terminalInstance: vscode.Terminal;
     const provider = new CustomSidebarViewProvider(context.extensionUri);
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
@@ -37,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
                         const selectedGifPath = fileUri[0].fsPath;
                         config.update("art2ascii.gifPath", selectedGifPath, 
                         vscode.ConfigurationTarget.Global);
-                        runTerminal();
+                        runRender();
                     }
                 }
             });
@@ -45,8 +45,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(uploadArt);
 
-    let terminal = vscode.commands.registerCommand(
-        "art2ascii.terminal",
+    let render = vscode.commands.registerCommand(
+        "art2ascii.render",
         async () => {
             if (!extensionPath) {
                 vscode.window.showErrorMessage('Failed to retrieve extension directory path.');
@@ -56,31 +56,27 @@ export function activate(context: vscode.ExtensionContext) {
             var gifPath: string | undefined = config.get<string>('art2ascii.gifPath');
             if (gifPath == undefined) 
                 gifPath = "";
-            const options: vscode.TerminalOptions = {
-                hideFromUser: true,
-                name: "Ext Term",
+            
+            const args: Args = {
+                filename: gifPath,
+                width: 35
             }
-            terminalInstance = vscode.window.createTerminal(options);
-
-            const predeterminedCommand = 'art2ascii -f ' + gifPath + ' -w 35 -e -o ' + extensionPath; 
-            terminalInstance.sendText(predeterminedCommand);
-            setTimeout(() => {
-                terminalInstance.dispose();
-                vscode.commands.executeCommand('workbench.action.reloadWindow');
-            },10000);
+            const ret = await art2ascii(args);
+            await fs.writeFile(extensionPath + "/output.data", ret, 'utf8');
+            //     vscode.commands.executeCommand('workbench.action.reloadWindow');
         });
     
-    context.subscriptions.push(terminal);
+    context.subscriptions.push(render);
 
 }
 
-async function runTerminal() {
+async function runRender() {
     return vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         cancellable: false
     }, async (progress, token) => {
         try {
-            vscode.commands.executeCommand('art2ascii.terminal');
+            vscode.commands.executeCommand('art2ascii.render');
             progress.report({ increment: 0 });
             await new Promise(resolve => setTimeout(resolve, 2000));
             progress.report({ increment: 20, message: "Compiling ASCII image." });

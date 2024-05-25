@@ -19,7 +19,6 @@ export class KDTree {
     this.distSqFunc =
       distSqFunc ||
       ((a, b) => a.reduce((sum, val, i) => sum + (val - b[i]) ** 2, 0));
-
     this.root = this.make(points);
   }
 
@@ -68,28 +67,28 @@ export class KDTree {
     if (vertex !== undefined) {
       const distSq = this.distSqFunc(point, vertex[2]);
       const dx = vertex[2][i] - point[i];
+      const top = heap.peek();
+      let num = 0;
+      if (top) num = top[0];
       if (heap.size() < k) {
         heap.push([distSq, tiebreaker, vertex[2]]);
-      } else {
-        const top = heap.peek();
-        if (top && distSq < top[0]) {
+      } else if (distSq < num) {
           heap.pushpop([distSq, tiebreaker, vertex[2]]);
-        }
-        i = (i + 1) % this.dim;
-        for (const b of [dx < 0, dx >= 0].slice(
-          0,
-          1 + +!!(top && dx * dx < top[0])
-        )) {
-          this.getKnn(
-            vertex[b ? 1 : 0],
-            point,
-            k,
-            returnDistSq,
-            heap,
-            i,
-            (tiebreaker << 1) | (b ? 1 : 0)
-          );
-        }
+      }
+      i = (i + 1) % this.dim;
+      for (const b of [dx < 0, dx >= 0].slice(
+        0,
+        1 + +!!(dx * dx < num)
+      )) {
+        this.getKnn(
+          vertex[b ? 1 : 0],
+          point,
+          k,
+          returnDistSq,
+          heap,
+          i,
+          (tiebreaker << 1) | (b ? 1 : 0)
+        );
       }
     }
     if (tiebreaker === 1) {

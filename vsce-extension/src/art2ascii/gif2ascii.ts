@@ -1,6 +1,6 @@
 import gifFrames from "gif-frames";
 import sharp from "sharp";
-import { imgDriver } from "./img2ascii.js";
+import { imgDriver } from "./img2ascii";
 
 async function splitGif(filename: string, width: number): Promise<string[]> {
   const asciiGif: string[] = [];

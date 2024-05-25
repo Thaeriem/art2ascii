@@ -1,4 +1,4 @@
-import { Point, KDTree } from "./kd_tree.js";
+import { Point, KDTree } from "./kd_tree";
 import sharp from "sharp";
 
 type Pixel = [number, number, number];
@@ -97,8 +97,10 @@ async function imageToAsciiColor(
           code = prevColors[pixelKey];
         } else {
           const nearest = kdtree.getNearest(pixel);
-          if (nearest) code = parseInt(colorMapping[nearest[1].toString()]);
-          prevColors[pixelKey] = code;
+          if (nearest) {
+            code = parseInt(colorMapping[nearest[1].toString()]);
+            prevColors[pixelKey] = code;
+          }
         }
       }
       asciiArt += asciiColor(code, char);
@@ -128,5 +130,5 @@ export async function imgMain(
   width: number
 ): Promise<string> {
   const img = sharp(filename);
-  return imgDriver(img, width);
+  return "@FRAME@" + imgDriver(img, width) + "@FRAME@";
 }

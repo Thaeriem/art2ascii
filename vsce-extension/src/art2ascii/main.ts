@@ -1,5 +1,5 @@
-import { imgMain } from "./img2ascii.js";
-import { gifMain } from "./gif2ascii.js";
+import { imgMain } from "./img2ascii";
+import { gifMain } from "./gif2ascii";
 
 export interface Args {
   filename: string;

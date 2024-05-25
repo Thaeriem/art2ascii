@@ -63,7 +63,7 @@
 				}
 			},
 			{
-				"command": "art2ascii.terminal",
+				"command": "art2ascii.render",
 				"category": "art2ascii",
 				"title": "Render ASCII"
 			}
