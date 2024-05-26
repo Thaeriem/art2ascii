@@ -24,11 +24,7 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
 4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
 
-<p align="center">
-  <video src="https://github.com/Thaeriem/art2ascii/blob/main/vsce-extension/assets/techdemo.mov" alt="Tech Demo" controls>
-    Your browser does not support the video tag.
-  </video>
-</p>
+https://github.com/Thaeriem/art2ascii/blob/main/vsce-extension/assets/techdemo.mov
 
 ## Requirements
 
