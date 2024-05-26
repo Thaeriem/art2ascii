@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { default as AnsiUp } from 'ansi_up';
 import { Args, art2ascii } from "./art2ascii/main";
+import fs from "fs";
 
 export function activate(context: vscode.ExtensionContext) {
     const extensionPath = vscode.extensions.getExtension('Thaeriem.art2ascii')?.extensionPath;
@@ -59,14 +60,34 @@ export function activate(context: vscode.ExtensionContext) {
                 filename: gifPath,
                 width: 35
             }
-            art2ascii(args).then((output) => {
-                provider.writeFile("output.data",output);
-            });
+            const output = await art2ascii(args);
+            writeOutput(extensionPath + "/output.data", output);
             // vscode.commands.executeCommand('workbench.action.reloadWindow');
         });
     
     context.subscriptions.push(render);
 
+}
+
+async function writeOutput(filepath: string, data: string) {
+    const retries = 5;
+    const delay = 1000;
+    function attemptWrite(attempt: number) {
+        fs.writeFile(filepath, data, (err) => {
+          if (err) {
+            if ((err.code === 'EBUSY' || err.code === 'EACCES') && attempt < retries) {
+              console.error(`File is locked or access is denied. Retrying... (Attempt ${attempt + 1})`);
+              setTimeout(() => attemptWrite(attempt + 1), delay);
+            } else {
+              console.error('Error writing file:', err);
+            }
+          } else {
+            console.log('File written successfully');
+          }
+        });
+      }
+
+      attemptWrite(0);
 }
 
 async function runRender() {
@@ -107,18 +128,38 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
             enableScripts: true,
             localResourceRoots: [this._extensionUri],
         };
+
         this.updateWebviewContent();
     }
 
     private async updateWebviewContent(): Promise<void> {
+        const watcher = 
+            vscode.workspace.createFileSystemWatcher(
+                new vscode.RelativePattern(this._extensionUri, 'output.data'));
+        watcher.onDidChange(uri => { console.log("FILE UPDATED"); });
+        let frames = await this.getFrames("output.data");
 
-        const frames = await this.getFrames("output.data");
-        let currentIndex = 0;
-        setInterval(() => {
-            this._view!.webview.html = frames[currentIndex];
-            // Move to next frame
-            currentIndex = (currentIndex + 1) % frames.length;
-        }, 83);
+        const animate = (): NodeJS.Timeout => {
+            let currentIndex = 0;
+            const interval = setInterval(() => {
+                this._view!.webview.html = frames[currentIndex];
+                // Move to next frame
+                currentIndex = (currentIndex + 1) % frames.length;
+            }, 83);
+            return interval;
+        }
+        let interval = animate();
+        setInterval(async () => {
+            watcher.onDidChange(async (uri) => {
+                frames = await this.getFrames("output.data");
+                clearInterval(interval);
+                this.clearHTML();
+                interval = animate();
+            });
+        }, 1000);
+    }
+    private async clearHTML() {
+        this._view!.webview.html = ``;
     }
 
     private async getFrames(filename: string): Promise<string[]> {
@@ -143,16 +184,6 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         } catch (error) {
             console.error(`Error reading file ${filename}: ${error}`);
             return '';
-        }
-    }
-    public async writeFile(filename: string, data: any) {
-        try {
-            const fileUri = vscode.Uri.joinPath(this._extensionUri, filename);
-            const writeData = Buffer.from(data);
-            await vscode.workspace.fs.writeFile(fileUri, writeData);
-
-        } catch(error) {
-            console.error(`Error reading file ${filename}: ${error}`);
         }
     }
 }
