@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
                         const selectedGifPath = fileUri[0].fsPath;
                         config.update("art2ascii.gifPath", selectedGifPath, 
                         vscode.ConfigurationTarget.Global);
-                        runRender();
+                        vscode.commands.executeCommand('art2ascii.render');
                     }
                 }
             });
@@ -88,28 +88,6 @@ async function writeOutput(filepath: string, data: string) {
       }
 
       attemptWrite(0);
-}
-
-async function runRender() {
-    return vscode.window.withProgress({
-        location: vscode.ProgressLocation.Notification,
-        cancellable: false
-    }, async (progress, token) => {
-        try {
-            vscode.commands.executeCommand('art2ascii.render');
-            progress.report({ increment: 0 });
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            progress.report({ increment: 20, message: "Compiling ASCII image." });
-            await new Promise(resolve => setTimeout(resolve, 4000));
-            progress.report({ increment: 35, message: "Compiling ASCII image.." });
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            progress.report({ increment: 45, message: "Compiling ASCII image..." });
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
-    });
 }
 
 class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
