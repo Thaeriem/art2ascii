@@ -1,10 +1,8 @@
 import * as vscode from "vscode";
 import { default as AnsiUp } from 'ansi_up';
 import { Args, art2ascii } from "./art2ascii/main";
-import fs from 'fs/promises';
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log("Extension activated");
     const extensionPath = vscode.extensions.getExtension('Thaeriem.art2ascii')?.extensionPath;
     const config = vscode.workspace.getConfiguration();
     config.update("art2ascii.gifUri", extensionPath + "/output.data", 
@@ -61,9 +59,10 @@ export function activate(context: vscode.ExtensionContext) {
                 filename: gifPath,
                 width: 35
             }
-            const ret = await art2ascii(args);
-            await fs.writeFile(extensionPath + "/output.data", ret, 'utf8');
-            //     vscode.commands.executeCommand('workbench.action.reloadWindow');
+            art2ascii(args).then((output) => {
+                provider.writeFile("output.data",output);
+            });
+            // vscode.commands.executeCommand('workbench.action.reloadWindow');
         });
     
     context.subscriptions.push(render);
@@ -140,11 +139,20 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
             const fileUri = vscode.Uri.joinPath(this._extensionUri, filename);
             const fileContent = await vscode.workspace.fs.readFile(fileUri);
             const contentString = Buffer.from(fileContent).toString('utf-8');
-            console.log("READ: " + contentString.length);
             return contentString;
         } catch (error) {
             console.error(`Error reading file ${filename}: ${error}`);
             return '';
+        }
+    }
+    public async writeFile(filename: string, data: any) {
+        try {
+            const fileUri = vscode.Uri.joinPath(this._extensionUri, filename);
+            const writeData = Buffer.from(data);
+            await vscode.workspace.fs.writeFile(fileUri, writeData);
+
+        } catch(error) {
+            console.error(`Error reading file ${filename}: ${error}`);
         }
     }
 }
