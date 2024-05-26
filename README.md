@@ -4,6 +4,8 @@
 
 art2ascii is a Visual Studio Code extension that allows users to select a GIF and play it in ASCII form directly within the Tree View tab of the workspace. 
 
+There is also a seperate Python CLI for rendering, playing, and saving your images and GIFs in terminal [here](https://github.com/Thaeriem/art2ascii/tree/1.0.3)!
+
 <p align="center">
 <img src="vsce-extension/assets/ascii_pedro.gif" alt="Pedro">
 </p>
@@ -18,10 +20,9 @@ art2ascii is a Visual Studio Code extension that allows users to select a GIF an
 ## Usage
 
 1. Install the art2ascii extension from the Visual Studio Code Marketplace.
-2. Install the art2ascii cli with: `pip install git+https://github.com/Thaeriem/art2ascii.git@1.0.3`
-3. Open a workspace or create a new one.
-4. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
-5. Your ASCII GIF will be compiling in the background and when completed it will reload the page.
+2. Open a workspace or create a new one.
+3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
+4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
 
 <p align="center">
 <img src="vsce-extension/assets/techdemo.gif" alt="Tech Demo">
@@ -33,10 +34,16 @@ art2ascii is a Visual Studio Code extension that allows users to select a GIF an
 
 ## Known Issues
 
-- Auto-reload is something that will be worked on in the future but at the moment has been difficult to implement properly (and is therefore not included in this version)
-- `art2ascii.terminal` sometimes does not write to the ASCII GIF file properly and forces users to re-compile (very annoying and will be trying to work on a fix)
+- Some GIF files may be too big to render properly (usually anything under 10MB should be fine)
 
 ## Release Notes
+
+### Version 1.1.0
+
+Updates:
+- Completely rewrote renderer in TypeScript, removing Python dependency and moving rendering from terminal to client-side
+- Improved efficiency by cutting out file read / writes entirely and only storing gifUri's and loading when neccesary
+- Implemented auto-reload feature rather than having to reload entire workspace view.
 
 ### Version 1.0.3
 
@@ -50,4 +57,4 @@ We welcome feedback and contributions from the community. If you encounter any i
 
 ## License
 
-This extension is licensed under the [MIT License](LICENSE).
+This extension is licensed under the [MIT License](https://github.com/Thaeriem/art2ascii/blob/main/LICENSE).

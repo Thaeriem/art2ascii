@@ -2,11 +2,13 @@
 	"name": "art2ascii",
 	"displayName": "art2ascii",
 	"description": "VSCode extension for art2ascii to display your ascii art!",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"publisher": "thaeriem",
 	"engines": {
 		"vscode": "^1.74.0"
 	},
+	"author": "Thaeriem",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Thaeriem/art2ascii.git"
@@ -61,7 +63,7 @@
 				}
 			},
 			{
-				"command": "art2ascii.terminal",
+				"command": "art2ascii.render",
 				"category": "art2ascii",
 				"title": "Render ASCII"
 			}
@@ -70,10 +72,6 @@
 			{
 				"properties": {
 					"art2ascii.gifPath": {
-						"type": "string",
-						"default": ""
-					},
-					"art2ascii.gifUri": {
 						"type": "string",
 						"default": ""
 					}
@@ -91,6 +89,7 @@
 		"@electron/rebuild": "^3.6.0",
 		"@types/node": "^18",
 		"@types/vscode": "^1.73.0",
+		"@types/punycode": "^2.1.4",
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
 		"@vscode/test-electron": "^2.3.9",
@@ -99,6 +98,9 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
-		"ansi_up": "^5.2.1"
+		"ansi_up": "^5.2.1",
+		"gif-frames": "^1.0.1",
+		"heap-js": "^2.5.0",
+		"sharp": "^0.33.4"
 	}
 }
