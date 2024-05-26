@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import { default as AnsiUp } from 'ansi_up';
 import { Args, art2ascii } from "./art2ascii/main";
-import fs from "fs";
 
 export function activate(context: vscode.ExtensionContext) {
     const extensionPath = vscode.extensions.getExtension('Thaeriem.art2ascii')?.extensionPath;
@@ -93,7 +92,7 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
             const interval = setInterval(() => {
                 this._view!.webview.html = local_frames[currentIndex];
                 currentIndex = (currentIndex + 1) % local_frames.length;
-            }, 83);
+            }, 100);
             return interval;
         }
         let interval = animate();
@@ -111,16 +110,6 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         this._view!.webview.html = ``;
     }
 
-    public async renderFrames(filename: string) {
-        const args: Args = {
-            filename: filename,
-            width: 35
-        }
-        const output = await art2ascii(args);
-        this._frames = this.getFrames(output);
-        this._framesChanged = true;
-    }
-
     private getFrames(data: string): string[] {
         const ansi_up = new AnsiUp();
         let frames = data.split('@FRAME@').map(frame => {
@@ -131,6 +120,21 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         frames.shift();
         frames.pop();
         return frames;
+    }
+
+    public async renderFrames(filename: string) {
+        const args: Args = {
+            filename: filename,
+            width: 35
+        }
+        try {
+            const output = await art2ascii(args);
+            this._frames = this.getFrames(output);
+            this._framesChanged = true;
+        } catch(err) {
+            vscode.window.showErrorMessage('File too big to process.');
+            return;
+        }
     }
 }
 

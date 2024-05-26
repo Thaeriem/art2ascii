@@ -130,5 +130,5 @@ export async function imgMain(
   width: number
 ): Promise<string> {
   const img = sharp(filename);
-  return "@FRAME@" + imgDriver(img, width) + "@FRAME@";
+  return "@FRAME@" + await imgDriver(img, width) + "@FRAME@";
 }
