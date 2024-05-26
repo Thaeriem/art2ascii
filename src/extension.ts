@@ -130,8 +130,10 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
             this._frames = this.getFrames(output);
             this._framesChanged = true;
         } catch(err) {
-            vscode.window.showErrorMessage('File too big to process.');
-            return;
+            if (filename != "") {
+                vscode.window.showErrorMessage('File too big to process.');
+                return;
+            }
         }
     }
 }
