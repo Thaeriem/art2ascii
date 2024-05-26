@@ -5,8 +5,6 @@ import { Args, art2ascii } from "./art2ascii/main";
 export function activate(context: vscode.ExtensionContext) {
     const extensionPath = vscode.extensions.getExtension('Thaeriem.art2ascii')?.extensionPath;
     const config = vscode.workspace.getConfiguration();
-    config.update("art2ascii.gifUri", extensionPath + "/output.data", 
-    vscode.ConfigurationTarget.Global);
     const provider = new CustomSidebarViewProvider(context.extensionUri);
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
