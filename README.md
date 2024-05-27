@@ -7,7 +7,7 @@ art2ascii is a Visual Studio Code extension that allows users to select a GIF an
 There is also a seperate Python CLI for rendering, playing, and saving your images and GIFs in terminal [here](https://github.com/Thaeriem/art2ascii/tree/1.0.3)!
 
 <p align="center">
-<img src="vsce-extension/assets/ascii_pedro.gif" alt="Pedro">
+<img src="assets/ascii_pedro.gif" alt="Pedro">
 </p>
 
 ## Features
@@ -33,6 +33,7 @@ https://github.com/Thaeriem/art2ascii/assets/93838214/c5818d5f-ce6b-49fd-9341-e8
 ## Known Issues
 
 - Some GIF files may be too big to render properly (usually anything under 10MB should be fine)
+- Extension cannot currently be bundled properly due to a dependency issue with sharp compiling on cross-platform builds (planning to continue working on this but will be a small performance hit for now...)
 
 ## Release Notes
 
