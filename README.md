@@ -35,7 +35,7 @@ https://github.com/Thaeriem/art2ascii/assets/93838214/c5818d5f-ce6b-49fd-9341-e8
 
 ## Release Notes
 
-### Version 1.1.0
+### Version 1.1.1
 
 Updates:
 - Completely rewrote renderer in TypeScript, removing Python dependency and moving rendering from terminal to client-side
