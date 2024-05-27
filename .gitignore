@@ -8,4 +8,4 @@
 **/node_modules
 browser/dist
 
-**/out
+**/dist
