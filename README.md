@@ -33,6 +33,7 @@ https://github.com/Thaeriem/art2ascii/assets/93838214/c5818d5f-ce6b-49fd-9341-e8
 ## Known Issues
 
 - Some GIF files may be too big to render properly (usually anything under 10MB should be fine)
+- Extension cannot currently be bundled properly due to a dependency issue with sharp compiling on cross-platform builds (planning to continue working on this but will be a small performance hit for now...)
 
 ## Release Notes
 

@@ -81,7 +81,8 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run esbuild-base -- --minify",
+		"vscode:prepublish": "npm run package",
+		"package": "npm run esbuild-base -- --minify",
 		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:sharp --format=cjs --platform=node",
 		"esbuild": "npm run esbuild-base -- --sourcemap",
 		"esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
@@ -95,10 +96,10 @@
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
 		"@vscode/test-electron": "^2.3.9",
-		"esbuild": "^0.21.4",
 		"eslint": "^8.26.0",
 		"source-map-support": "^0.5.12",
-		"typescript": "^5.4.2"
+		"typescript": "^5.4.2",
+		"esbuild": "^0.21.4"
 	},
 	"dependencies": {
 		"ansi_up": "^5.2.1",
