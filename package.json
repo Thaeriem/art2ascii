@@ -9,7 +9,7 @@
 	},
 	"author": "Thaeriem",
 	"license": "MIT",
-	"keywords": [],
+	"keywords": ["ascii", "gif", "render", "visualization", "animation"],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Thaeriem/art2ascii.git"
