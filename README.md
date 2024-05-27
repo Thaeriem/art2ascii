@@ -22,7 +22,8 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
 4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
 
-https://github.com/Thaeriem/art2ascii/assets/93838214/c5818d5f-ce6b-49fd-9341-e80b1cd685e3
+
+https://github.com/Thaeriem/art2ascii/assets/93838214/37676b22-b250-4557-b978-14f6a77e0688
 
 ## Requirements
 
