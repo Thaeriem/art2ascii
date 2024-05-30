@@ -4,11 +4,13 @@ import { gifMain } from "./gif2ascii";
 export interface Args {
   filename: string;
   width: number;
+  gradient?: string[];
 }
 
 // Set default values for the optional arguments
 const defaultArgs: Partial<Args> = {
   width: 35,
+  gradient: [],
 };
 
 // Function to validate and merge default values
@@ -24,8 +26,8 @@ export async function art2ascii(args: Args) {
   }
 
   if (args.filename.toLowerCase().endsWith(".gif")) {
-    return await gifMain(args.filename, args.width);
+    return await gifMain(args.filename, args.width, args.gradient);
   } else {
-    return await imgMain(args.filename, args.width);
+    return await imgMain(args.filename, args.width, args.gradient);
   }
 }

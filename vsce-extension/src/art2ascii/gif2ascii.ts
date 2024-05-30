@@ -2,7 +2,7 @@ import gifFrames from "gif-frames";
 import sharp from "sharp";
 import { imgDriver } from "./img2ascii";
 
-async function splitGif(filename: string, width: number): Promise<string[]> {
+async function splitGif(filename: string, width: number, gradient: string[] = []): Promise<string[]> {
   const asciiGif: string[] = [];
 
   // Extract frames from the GIF
@@ -18,7 +18,7 @@ async function splitGif(filename: string, width: number): Promise<string[]> {
     const frameData = frame.getImage().pipe(sharp({ animated: true }));
     const img = frameData.png({ quality: 100 });
 
-    const asciiArt = await imgDriver(img, width);
+    const asciiArt = await imgDriver(img, width, gradient);
     asciiGif.push(asciiArt);
   }
   return asciiGif;
@@ -26,9 +26,10 @@ async function splitGif(filename: string, width: number): Promise<string[]> {
 
 export async function gifMain(
   filename: string,
-  width: number
+  width: number,
+  gradient: string[] = [],
 ): Promise<string> {
-  const frames = await splitGif(filename, width);
+  const frames = await splitGif(filename, width, gradient);
   let retStr = "@FRAME@\n";
   for (const frame of frames) {
     retStr += frame;

@@ -1,5 +1,6 @@
 export type Pixel = [number, number, number];
 export type ColorMapping = { [key: string]: string };
+
 // courtesy of https://stackoverflow.com/questions/3080421/javascript-color-gradient
 function getGradientColor (startColor: string, endColor: string, percent: number): string {
     // strip the leading # if it's there
@@ -68,6 +69,18 @@ export function parseColorFile(colorText: string): ColorMapping {
     colorMapping[rgb.toString()] = code;
   }
   return colorMapping;
+}
+
+export function hexToRgb(hex: string): Pixel {
+  // Remove the hash at the start if it's there
+  hex = hex.replace(/^\s*#|\s*$/g, '');
+
+  // Parse the r, g, b values
+  let r = parseInt(hex.substring(0, 2), 16);
+  let g = parseInt(hex.substring(2, 4), 16);
+  let b = parseInt(hex.substring(4, 6), 16);
+
+  return [r, g, b];
 }
 
 export function asciiColor(colorCode: number, text: string): string {

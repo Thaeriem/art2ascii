@@ -68,6 +68,11 @@ async function imageToAsciiColor(
     withoutEnlargement: true,
   });
 
+  let grad: string[] = [];
+  if (gradient.length > 0) {
+    grad = a2a_color.GradientDriver(gradient[0],gradient[1]);
+  }
+
   const buffer = await img.toBuffer();
   const { data, info } = await sharp(buffer)
     .raw()
@@ -85,13 +90,15 @@ async function imageToAsciiColor(
   for (let y = 0; y < info.height; y++) {
     for (let x = 0; x < info.width; x++) {
       const idx = (y * info.width + x) * 3;
-      const pixel: a2a_color.Pixel = [data[idx], data[idx + 1], data[idx + 2]];
+      let pixel: a2a_color.Pixel = [data[idx], data[idx + 1], data[idx + 2]];
 
       const greyIdx = y * info.width + x;
       const pixelIntensity = 255 - greyImg.data[greyIdx];
 
       const char =
         asciiChars[Math.floor((pixelIntensity * asciiChars.length) / 256)];
+      if (gradient.length > 0) 
+        pixel = a2a_color.hexToRgb(grad[Math.floor((pixelIntensity * grad.length) / 256)]);
 
       const code = asciiRender(pixel, char, colorMapping, prevColors, kdtree);
       asciiArt += a2a_color.asciiColor(code, char);
@@ -106,10 +113,6 @@ export async function imgDriver(
   width: number,
   gradient: string[] = [],
 ): Promise<string> {
-  let grad = [];
-  if (gradient.length > 0) {
-    grad = a2a_color.GradientDriver(gradient[0],gradient[1]);
-  }
   const colorMapping: a2a_color.ColorMapping = a2a_color.parseColorFile(colorText);
   const kdtree = kdTreeDriver(colorMapping);
   const asciiArtColor = await imageToAsciiColor(
@@ -124,7 +127,8 @@ export async function imgDriver(
 
 export async function imgMain(
   filename: string,
-  width: number
+  width: number, 
+  gradient: string[] = [],
 ): Promise<string> {
   const img = sharp(filename);
   return "@FRAME@" + await imgDriver(img, width) + "@FRAME@";
