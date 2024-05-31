@@ -67,9 +67,9 @@ async function imageToAsciiColor(
     fit: sharp.fit.fill,
     withoutEnlargement: true,
   });
-
+  const gr = (gradient.length > 0);
   let grad: string[] = [];
-  if (gradient.length > 0) {
+  if (gr) {
     grad = a2a_color.GradientDriver(gradient[0],gradient[1]);
   }
 
@@ -90,16 +90,18 @@ async function imageToAsciiColor(
   for (let y = 0; y < info.height; y++) {
     for (let x = 0; x < info.width; x++) {
       const idx = (y * info.width + x) * 3;
-      let pixel: a2a_color.Pixel = [data[idx], data[idx + 1], data[idx + 2]];
+      const pixel: a2a_color.Pixel = [data[idx], data[idx + 1], data[idx + 2]];
 
       const greyIdx = y * info.width + x;
       const pixelIntensity = 255 - greyImg.data[greyIdx];
 
       const char =
         asciiChars[Math.floor((pixelIntensity * asciiChars.length) / 256)];
-      if (gradient.length > 0) 
-        pixel = a2a_color.hexToRgb(grad[Math.floor((pixelIntensity * grad.length) / 256)]);
-
+      if (gr) {
+        const hex = grad[Math.floor((pixelIntensity * grad.length) / 256)];
+        asciiArt += `<span style="color:${hex}">${char}</span>`
+        continue;
+      }
       const code = asciiRender(pixel, char, colorMapping, prevColors, kdtree);
       asciiArt += a2a_color.asciiColor(code, char);
     }

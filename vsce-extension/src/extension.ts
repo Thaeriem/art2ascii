@@ -108,10 +108,11 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         this._view!.webview.html = ``;
     }
 
-    private getFrames(data: string): string[] {
+    private getFrames(data: string, gradient: boolean = false): string[] {
         const ansi_up = new AnsiUp();
         let frames = data.split('@FRAME@').map(frame => {
             // Convert each frame to HTML
+            if (gradient) return `<pre>${frame}</pre>`;
             const html = ansi_up.ansi_to_html(frame);
             return `<pre>${html}</pre>`;
         });
@@ -123,11 +124,12 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
     public async renderFrames(filename: string) {
         const args: Args = {
             filename: filename,
-            width: 35
+            width: 35,
+            gradient: ["#FF0F7B", "#F89B29"]
         }
         try {
             const output = await art2ascii(args);
-            this._frames = this.getFrames(output);
+            this._frames = this.getFrames(output, true);
             this._framesChanged = true;
         } catch(err) {
             console.error(err);   
