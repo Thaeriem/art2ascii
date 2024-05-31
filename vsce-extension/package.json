@@ -88,11 +88,13 @@
 				"properties": {
 					"art2ascii.gifPath": {
 						"type": "string",
-						"default": ""
+						"default": "",
+						"description": "Location of input media."
 					},
 					"art2ascii.tint": {
 						"type": "string",
-						"default": ""
+						"default": "",
+						"description": "Color of applied tint."
 					}
 				}
 			}
