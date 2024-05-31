@@ -83,6 +83,22 @@ export function hexToRgb(hex: string): Pixel {
   return [r, g, b];
 }
 
+export function mixRgb(color1: Pixel, color2: Pixel): Pixel {
+  const mixChannel = (channel1: number, channel2: number): number => {
+    return Math.round((channel1 + channel2) / 2);
+  };
+
+  const red = mixChannel(color1[0], color2[0]);
+  const green = mixChannel(color1[1], color2[1]);
+  const blue = mixChannel(color1[2], color2[2]);
+
+  return [red, green, blue];
+}
+
+export function RgbToString(pixel: Pixel): string {
+  return "(" + pixel[0] + "," + pixel[1] + "," + pixel[2] + ")";
+}
+
 export function asciiColor(colorCode: number, text: string): string {
   return `\x1b[38;5;${colorCode}m${text}\x1b[0m`;
 }
