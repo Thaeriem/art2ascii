@@ -56,7 +56,7 @@ async function imageToAsciiColor(
   kdtree: KDTree,
   image: sharp.Sharp,
   width: number,
-  gradient: string[] = [],
+  tintColor: string = "",
 ): Promise<string> {
   let img = image;
   const metadata = await img.metadata();
@@ -67,11 +67,9 @@ async function imageToAsciiColor(
     fit: sharp.fit.fill,
     withoutEnlargement: true,
   });
-  const gr = (gradient.length > 0);
-  let grad: string[] = [];
-  if (gr) {
-    grad = a2a_color.GradientDriver(gradient[0],gradient[1]);
-  }
+  const tint = (tintColor != "");
+  let mix: a2a_color.Pixel = [0,0,0];
+  if (tint) mix = a2a_color.hexToRgb(tintColor);
 
   const buffer = await img.toBuffer();
   const { data, info } = await sharp(buffer)
@@ -97,9 +95,9 @@ async function imageToAsciiColor(
 
       const char =
         asciiChars[Math.floor((pixelIntensity * asciiChars.length) / 256)];
-      if (gr) {
-        const hex = grad[Math.floor((pixelIntensity * grad.length) / 256)];
-        asciiArt += `<span style="color:${hex}">${char}</span>`
+      if (tint) {
+        const hex = a2a_color.mixRgb(pixel, mix);
+        asciiArt += `<span style="color:rgb${a2a_color.RgbToString(hex)}">${char}</span>`
         continue;
       }
       const code = asciiRender(pixel, char, colorMapping, prevColors, kdtree);
@@ -113,7 +111,7 @@ async function imageToAsciiColor(
 export async function imgDriver(
   image: sharp.Sharp,
   width: number,
-  gradient: string[] = [],
+  tintColor: string = "",
 ): Promise<string> {
   const colorMapping: a2a_color.ColorMapping = a2a_color.parseColorFile(colorText);
   const kdtree = kdTreeDriver(colorMapping);
@@ -122,7 +120,7 @@ export async function imgDriver(
     kdtree,
     image,
     width,
-    gradient
+    tintColor
   );
   return asciiArtColor;
 }
@@ -130,8 +128,8 @@ export async function imgDriver(
 export async function imgMain(
   filename: string,
   width: number, 
-  gradient: string[] = [],
+  tintColor: string = "",
 ): Promise<string> {
   const img = sharp(filename);
-  return "@FRAME@" + await imgDriver(img, width) + "@FRAME@";
+  return "@FRAME@" + await imgDriver(img, width, tintColor) + "@FRAME@";
 }
