@@ -14,9 +14,11 @@ export function activate(context: vscode.ExtensionContext) {
     );
     let selectedGifPath = "";
     var gifPath: string | undefined = config.get<string>('art2ascii.gifPath');
-    if (gifPath == undefined) 
-        gifPath = "";   
-    provider.renderFrames(gifPath);
+    if (gifPath != undefined) selectedGifPath = gifPath;
+    let tint = "";
+    var tintVar: string | undefined = config.get<string>('art2ascii.tint');
+    if (tintVar != undefined) tint = tintVar;      
+    provider.renderFrames(selectedGifPath, tint);
 
     let uploadArt = vscode.commands.registerCommand(
         "art2ascii.upload-art",
@@ -44,7 +46,34 @@ export function activate(context: vscode.ExtensionContext) {
             });
     });
 
-    context.subscriptions.push(uploadArt);
+    let updateTint = vscode.commands.registerCommand(
+        "art2ascii.update-tint",
+        async () => {
+            const isValidHex = (hex: string): boolean => {
+                if (hex == "") return true;
+                // Remove leading '#' if present
+                hex = hex.replace(/^#/, '');
+                // Validate hex string
+                return /^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
+            };
+
+            let hexInput = await vscode.window.showInputBox({
+                placeHolder: 'Enter a hexadecimal color code (e.g., #ff5733 or ff5733)'
+            });
+    
+            if (!hexInput) hexInput = "";
+
+            if(isValidHex(hexInput)) {
+                tint = hexInput;
+                await config.update("art2ascii.tint", tint, vscode.ConfigurationTarget.Global);
+            }
+            else {
+                vscode.window.showInformationMessage("Non-valid Hexadecimal Input");
+                return;
+            }
+            provider.renderFrames(selectedGifPath, tint);
+            
+    });
 
     let render = vscode.commands.registerCommand(
         "art2ascii.render",
@@ -53,10 +82,10 @@ export function activate(context: vscode.ExtensionContext) {
                 vscode.window.showErrorMessage('Failed to retrieve extension directory path.');
                 return;
             } 
-            provider.renderFrames(selectedGifPath);
+            provider.renderFrames(selectedGifPath, tint);
         });
     
-    context.subscriptions.push(render);
+    context.subscriptions.push(uploadArt, updateTint, render);
 
 }
 
@@ -108,11 +137,11 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         this._view!.webview.html = ``;
     }
 
-    private getFrames(data: string, gradient: boolean = false): string[] {
+    private getFrames(data: string, tint: boolean = false): string[] {
         const ansi_up = new AnsiUp();
         let frames = data.split('@FRAME@').map(frame => {
             // Convert each frame to HTML
-            if (gradient) return `<pre>${frame}</pre>`;
+            if (tint) return `<pre>${frame}</pre>`;
             const html = ansi_up.ansi_to_html(frame);
             return `<pre>${html}</pre>`;
         });
@@ -121,15 +150,15 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         return frames;
     }
 
-    public async renderFrames(filename: string) {
+    public async renderFrames(filename: string, tintColor: string) {
         const args: Args = {
             filename: filename,
             width: 35,
-            gradient: ["#FF0F7B", "#F89B29"]
+            tint: tintColor
         }
         try {
             const output = await art2ascii(args);
-            this._frames = this.getFrames(output, true);
+            this._frames = this.getFrames(output, (tintColor != ""));
             this._framesChanged = true;
         } catch(err) {
             console.error(err);   
