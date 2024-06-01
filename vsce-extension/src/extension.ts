@@ -46,6 +46,8 @@ export function activate(context: vscode.ExtensionContext) {
             });
     });
 
+    // maybe add on-setting update event
+    // add gradient functionality? (maybe add presets using QuickPick)
     let updateTint = vscode.commands.registerCommand(
         "art2ascii.update-tint",
         async () => {
