@@ -32,7 +32,7 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "art2ascii.update-tint",
+					"command": "art2ascii.color-menu",
 					"when": "view == art2ascii.artView",
 					"group": "navigation@1"
 				},
@@ -69,18 +69,33 @@
 				}
 			},
 			{
-				"command": "art2ascii.update-tint",
-				"title": "Update Tint",
+				"command": "art2ascii.color-menu",
+				"title": "Color Menu",
 				"category": "art2ascii",
 				"icon": {
-					"dark": "assets/tint_light.svg",
-					"light": "assets/tint_dark.svg"
+					"dark": "assets/color_light.svg",
+					"light": "assets/color_dark.svg"
 				}
 			},
 			{
 				"command": "art2ascii.render",
 				"category": "art2ascii",
 				"title": "Render ASCII"
+			},
+			{
+				"command": "art2ascii.update-tint",
+				"category": "art2ascii",
+				"title": "Update Tint"
+			},
+			{
+				"command": "art2ascii.update-gradient",
+				"category": "art2ascii",
+				"title": "Update Gradient"
+			},
+			{
+				"command": "art2ascii.update-opacity",
+				"category": "art2ascii",
+				"title": "Update Opacity"
 			}
 		],
 		"configuration": [
@@ -92,9 +107,14 @@
 						"description": "Location of input media."
 					},
 					"art2ascii.tint": {
-						"type": "string",
-						"default": "",
+						"type": "array",
+						"default": [],
 						"description": "Color of applied tint."
+					},
+					"art2ascii.opacity": {
+						"type": "number",
+						"default": 1.0,
+						"description": "Opacity of media."
 					}
 				}
 			}

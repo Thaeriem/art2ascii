@@ -1,5 +1,6 @@
 import { Point, KDTree } from "./kd_tree";
 import * as a2a_color from "./a2a_color";
+import { Args } from "./main";
 import sharp from "sharp";
 
 // add more colortext to render?
@@ -51,12 +52,17 @@ function asciiRender(
   return code;
 }
 
+function gradientEval(info: sharp.OutputInfo, gradLength: number) {
+    return info.width / gradLength;
+}
+
 async function imageToAsciiColor(
   colorMapping: a2a_color.ColorMapping,
   kdtree: KDTree,
   image: sharp.Sharp,
   width: number,
-  tintColor: string = "",
+  tintColors: string[] = [],
+  opacity: number = 1.0
 ): Promise<string> {
   let img = image;
   const metadata = await img.metadata();
@@ -67,10 +73,6 @@ async function imageToAsciiColor(
     fit: sharp.fit.fill,
     withoutEnlargement: true,
   });
-  const tint = (tintColor != "");
-  let mix: a2a_color.Pixel = [0,0,0];
-  if (tint) mix = a2a_color.hexToRgb(tintColor);
-
   const buffer = await img.toBuffer();
   const { data, info } = await sharp(buffer)
     .raw()
@@ -85,6 +87,13 @@ async function imageToAsciiColor(
   const prevColors: { [key: string]: number } = {};
   let asciiArt = "";
 
+  const tint = (tintColors.length > 0);
+  // console.log(tintColors);
+  let grad = [tintColors[0]];
+  if (tintColors.length > 1) grad = a2a_color.GradientDriver(tintColors[0], tintColors[1]);
+  const part = gradientEval(info, grad.length);
+  let mix: a2a_color.Pixel = [0,0,0];
+
   for (let y = 0; y < info.height; y++) {
     for (let x = 0; x < info.width; x++) {
       const idx = (y * info.width + x) * 3;
@@ -96,7 +105,8 @@ async function imageToAsciiColor(
       const char =
         asciiChars[Math.floor((pixelIntensity * asciiChars.length) / 256)];
       if (tint) {
-        const hex = a2a_color.mixRgb(pixel, mix);
+        mix = a2a_color.hexToRgb(grad[Math.floor(x/part)])
+        const hex = a2a_color.mixRgb(pixel, mix, opacity);
         asciiArt += `<span style="color:rgb${a2a_color.RgbToString(hex)}">${char}</span>`
         continue;
       }
@@ -111,7 +121,8 @@ async function imageToAsciiColor(
 export async function imgDriver(
   image: sharp.Sharp,
   width: number,
-  tintColor: string = "",
+  tintColors: string[] = [],
+  opacity: number = 1.0
 ): Promise<string> {
   const colorMapping: a2a_color.ColorMapping = a2a_color.parseColorFile(colorText);
   const kdtree = kdTreeDriver(colorMapping);
@@ -120,16 +131,15 @@ export async function imgDriver(
     kdtree,
     image,
     width,
-    tintColor
+    tintColors, 
+    opacity
   );
   return asciiArtColor;
 }
 
 export async function imgMain(
-  filename: string,
-  width: number, 
-  tintColor: string = "",
+  args: Args,
 ): Promise<string> {
-  const img = sharp(filename);
-  return "@FRAME@" + await imgDriver(img, width, tintColor) + "@FRAME@";
+  const img = sharp(args.filename);
+  return "@FRAME@" + await imgDriver(img, args.width, args.tints, args.opacity) + "@FRAME@";
 }

@@ -83,9 +83,9 @@ export function hexToRgb(hex: string): Pixel {
   return [r, g, b];
 }
 
-export function mixRgb(color1: Pixel, color2: Pixel): Pixel {
+export function mixRgb(color1: Pixel, color2: Pixel, opacity: number): Pixel {
   const mixChannel = (channel1: number, channel2: number): number => {
-    return Math.round((channel1 + channel2) / 2);
+    return Math.round((channel1 + (opacity)*channel2)/(1+opacity));
   };
 
   const red = mixChannel(color1[0], color2[0]);
