@@ -88,7 +88,6 @@ async function imageToAsciiColor(
   let asciiArt = "";
 
   const tint = (tintColors.length > 0);
-  // console.log(tintColors);
   let grad = [tintColors[0]];
   if (tintColors.length > 1) grad = a2a_color.GradientDriver(tintColors[0], tintColors[1]);
   const part = gradientEval(info, grad.length);

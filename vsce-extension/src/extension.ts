@@ -5,13 +5,6 @@ import { Args, art2ascii } from "./art2ascii/main";
 export function activate(context: vscode.ExtensionContext) {
     const extensionPath = vscode.extensions.getExtension('Thaeriem.art2ascii')?.extensionPath;
     const config = vscode.workspace.getConfiguration();
-    const provider = new CustomSidebarViewProvider(context.extensionUri);
-    context.subscriptions.push(
-        vscode.window.registerWebviewViewProvider(
-            CustomSidebarViewProvider.viewType,
-            provider
-        )
-    );
     let selectedGifPath = "";
     var gifPath: string | undefined = config.get<string>('art2ascii.gifPath');
     if (gifPath != undefined) selectedGifPath = gifPath;
@@ -21,6 +14,14 @@ export function activate(context: vscode.ExtensionContext) {
     let selectedOpacity = 1.0;
     var opacity: number | undefined = config.get<number>('art2ascii.opacity');
     if (opacity != undefined) selectedOpacity = opacity;
+
+    const provider = new CustomSidebarViewProvider(context.extensionUri);
+    context.subscriptions.push(
+        vscode.window.registerWebviewViewProvider(
+            CustomSidebarViewProvider.viewType,
+            provider
+        )
+    );
     provider.renderFrames(selectedGifPath, tint, selectedOpacity);
 
     let uploadArt = vscode.commands.registerCommand(
@@ -65,6 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
             const options: vscode.QuickPickOptions = {
                 title: "Color Menu",
                 canPickMany: false,
+                placeHolder: 'Select Color Mode'
             };
             const res = await vscode.window.showQuickPick(["Tint","Gradient"], options);
             if (res == "Tint") vscode.commands.executeCommand("art2ascii.update-tint");
@@ -132,12 +134,12 @@ export function activate(context: vscode.ExtensionContext) {
         async() => {
             let hexInput = await vscode.window.showInputBox({
                 placeHolder: 'Enter a hexadecimal color code (e.g., #ff5733 or ff5733)',
-                title: "Select Gradient (1/2)"
+                title: "Select Gradient 1/2"
             });
             if (hexInput == undefined) return;
             let hexInput2 = await vscode.window.showInputBox({
                 placeHolder: 'Enter a hexadecimal color code (e.g., #ff5733 or ff5733)',
-                title: "Select Gradient (2/2)"
+                title: "Select Gradient 2/2"
             });
             if (hexInput2 == undefined) return;
             if(isValidHex(hexInput) && isValidHex(hexInput2)) {
@@ -156,7 +158,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     });
     
-    context.subscriptions.push(uploadArt, colorMenu, updateGradient, updateTint, render);
+    context.subscriptions.push(uploadArt, colorMenu, updateGradient, updateTint, updateOpacity, render);
 
 }
 
@@ -178,34 +180,39 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
             enableScripts: true,
             localResourceRoots: [this._extensionUri],
         };
-
+        this.clearHTML();
         this.updateWebviewContent();
     }
 
     private async updateWebviewContent(): Promise<void> {
         let local_frames = this._frames;
-
         const animate = (): NodeJS.Timeout => {
             let currentIndex = 0;
             const interval = setInterval(() => {
-                this._view!.webview.html = local_frames[currentIndex];
-                currentIndex = (currentIndex + 1) % local_frames.length;
+                if (this._view && this._view.webview) {
+                    this._view.webview.html = local_frames[currentIndex];
+                    currentIndex = (currentIndex + 1) % local_frames.length;
+                }
             }, 100);
             return interval;
         }
         let interval = animate();
+        this._view?.onDidDispose(() => {
+            clearInterval(interval);
+            this.clearHTML();
+        });
         setInterval(async () => {
             if (this._framesChanged) {
-                local_frames = this._frames;
                 clearInterval(interval);
+                local_frames = this._frames;
                 this.clearHTML();
-                interval = animate();
                 this._framesChanged = false;
+                interval = animate();
             };
         }, 1000);
     }
     private async clearHTML() {
-        this._view!.webview.html = ``;
+        if (this._view && this._view.webview) this._view.webview.html = ``;
     }
 
     private getFrames(data: string, tint: boolean = false): string[] {

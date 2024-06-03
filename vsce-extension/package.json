@@ -63,19 +63,13 @@
 				"command": "art2ascii.upload-art",
 				"title": "Upload Image/Gif",
 				"category": "art2ascii",
-				"icon": {
-					"dark": "assets/upld_light.svg",
-					"light": "assets/upld_dark.svg"
-				}
+				"icon": "$(file-add)"
 			},
 			{
 				"command": "art2ascii.color-menu",
 				"title": "Color Menu",
 				"category": "art2ascii",
-				"icon": {
-					"dark": "assets/color_light.svg",
-					"light": "assets/color_dark.svg"
-				}
+				"icon": "$(color-mode)"
 			},
 			{
 				"command": "art2ascii.render",
@@ -114,7 +108,7 @@
 					"art2ascii.opacity": {
 						"type": "number",
 						"default": 1.0,
-						"description": "Opacity of media."
+						"description": "Opacity of tint."
 					}
 				}
 			}
