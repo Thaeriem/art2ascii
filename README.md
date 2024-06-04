@@ -28,7 +28,7 @@ https://github.com/Thaeriem/art2ascii/assets/93838214/65074feb-a767-4402-a13a-00
 ### Adding Tint / Gradient
 1. Press the Color Menu button or `art2ascii.color-menu` in Command Palette.
 2. Select Tint or Gradient respectively (you can also skip this step by running either `art2ascii.update-tint` or `art2ascii.update-gradient`).
-3. Input selected hexadecimal color in the form `#000000` or `000000` or two colors for gradient.
+3. Input selected hexadecimal color in the form `#000000` or `000000`, two colors need to be selected for gradient.
 
 https://github.com/Thaeriem/art2ascii/assets/93838214/bd9a01b7-bf5c-4860-99a3-08058bdf7155
 
