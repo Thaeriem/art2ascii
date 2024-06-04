@@ -10,20 +10,25 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 
 ## Features
 
-- Converts selected GIF files into ASCII art.
-- Plays the ASCII art animation in the Tree View tab of the workspace.
+- Converts selected GIF files into ASCII art and plays in Explorer tab of workspace.
 - Supports basic GIF animations.
+- Apply tint or gradient to image to customize how GIF is rendered.
 - Lightweight and easy to use.
 
 ## Usage
 
+### Installation / Upload Media
 1. Install the art2ascii extension from the Visual Studio Code Marketplace.
 2. Open a workspace or create a new one.
 3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
 4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
 
-
 https://github.com/Thaeriem/art2ascii/assets/93838214/37676b22-b250-4557-b978-14f6a77e0688
+
+### Adding Tint / Gradient
+1. Press the Color Menu button or `art2ascii.color-menu` in Command Palette.
+2. Select Tint or Gradient respectively (you can also skip this step by running either `art2ascii.update-tint` or `art2ascii.update-gradient`).
+3. Input selected hexadecimal color in the form `#000000` or `000000` or two colors for gradient.
 
 ## Requirements
 
@@ -39,23 +44,17 @@ https://github.com/Thaeriem/art2ascii/assets/93838214/37676b22-b250-4557-b978-14
 
 
 ### Version 1.2.0
-
-Updates:
 - Added color menu with tint and gradient options.
 - Added opacity option for tints and gradients.
 - Refactored how configs are loaded for better performance.
 - Fixed bug when closing extension webviewView.
 
 ### Version 1.1.1
-
-Updates:
 - Completely rewrote renderer in TypeScript, removing Python dependency and moving rendering from terminal to client-side.
 - Improved efficiency by cutting out file read / writes entirely and only storing gifUri's and loading when neccesary.
 - Implemented auto-reload feature rather than having to reload entire workspace view.
 
 ### Version 1.0.3
-
-Initial release of art2ascii:
 - GIF to ASCII conversion.
 - Display ASCII animation in the Tree View tab.
 
