@@ -33,14 +33,24 @@ https://github.com/Thaeriem/art2ascii/assets/93838214/37676b22-b250-4557-b978-14
 
 - Some GIF files may be too big to render properly (usually anything under 10MB should be fine)
 - Extension cannot currently be bundled properly due to a dependency issue with sharp compiling on cross-platform builds (planning to continue working on this but will be a small performance hit for now...)
+- Working on a better way to interface with webviewView to improve performance
 
 ## Release Notes
+
+
+### Version 1.2.0
+
+Updates:
+- Added color menu with tint and gradient options.
+- Added opacity option for tints and gradients.
+- Refactored how configs are loaded for better performance.
+- Fixed bug when closing extension webviewView.
 
 ### Version 1.1.1
 
 Updates:
-- Completely rewrote renderer in TypeScript, removing Python dependency and moving rendering from terminal to client-side
-- Improved efficiency by cutting out file read / writes entirely and only storing gifUri's and loading when neccesary
+- Completely rewrote renderer in TypeScript, removing Python dependency and moving rendering from terminal to client-side.
+- Improved efficiency by cutting out file read / writes entirely and only storing gifUri's and loading when neccesary.
 - Implemented auto-reload feature rather than having to reload entire workspace view.
 
 ### Version 1.0.3

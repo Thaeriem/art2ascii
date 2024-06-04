@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2024-06-04
+- Added color menu with tint and gradient options.
+- Added opacity option for tints and gradients.
+- Refactored how configs are loaded for better performance.
+- Fixed bug when closing extension webviewView.
+
 ## [1.1.1] - 2024-05-26
 - Completely rewrote renderer in TypeScript, removing Python dependency and moving rendering from terminal to client-side
 - Improved efficiency by cutting out file read / writes entirely and only storing gifUri's and loading when neccesary
