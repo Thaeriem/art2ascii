@@ -18,17 +18,21 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 ## Usage
 
 ### Installation / Upload Media
-1. Install the art2ascii extension from the Visual Studio Code Marketplace.
+1. Install the art2ascii extension from the Visual Studio Code Marketplace or through the extensions page on VSCode.
 2. Open a workspace or create a new one.
 3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
 4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
 
-https://github.com/Thaeriem/art2ascii/assets/93838214/37676b22-b250-4557-b978-14f6a77e0688
+https://github.com/Thaeriem/art2ascii/assets/93838214/65074feb-a767-4402-a13a-00c759f56470
 
 ### Adding Tint / Gradient
 1. Press the Color Menu button or `art2ascii.color-menu` in Command Palette.
 2. Select Tint or Gradient respectively (you can also skip this step by running either `art2ascii.update-tint` or `art2ascii.update-gradient`).
-3. Input selected hexadecimal color in the form `#000000` or `000000` or two colors for gradient.
+3. Input selected hexadecimal color in the form `#000000` or `000000`, two colors need to be selected for gradient.
+
+https://github.com/Thaeriem/art2ascii/assets/93838214/bd9a01b7-bf5c-4860-99a3-08058bdf7155
+
+https://github.com/Thaeriem/art2ascii/assets/93838214/4d1b58c7-af64-4ee6-bc87-3831fa610026
 
 ## Requirements
 
