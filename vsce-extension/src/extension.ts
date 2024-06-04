@@ -193,17 +193,17 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
                     this._view.webview.html = local_frames[currentIndex];
                     currentIndex = (currentIndex + 1) % local_frames.length;
                 }
-            }, 100);
+            }, 150);
             return interval;
         }
         let interval = animate();
         this._view?.onDidDispose(() => {
-            clearInterval(interval);
+            if (interval) clearInterval(interval);
             this.clearHTML();
         });
         setInterval(async () => {
             if (this._framesChanged) {
-                clearInterval(interval);
+                if (interval) clearInterval(interval);
                 local_frames = this._frames;
                 this.clearHTML();
                 this._framesChanged = false;
