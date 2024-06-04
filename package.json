@@ -32,9 +32,14 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "art2ascii.upload-art",
+					"command": "art2ascii.color-menu",
 					"when": "view == art2ascii.artView",
 					"group": "navigation@1"
+				},
+				{
+					"command": "art2ascii.upload-art",
+					"when": "view == art2ascii.artView",
+					"group": "navigation@2"
 				}
 			]
 		},
@@ -58,15 +63,33 @@
 				"command": "art2ascii.upload-art",
 				"title": "Upload Image/Gif",
 				"category": "art2ascii",
-				"icon": {
-					"dark": "assets/icon_light.svg",
-					"light": "assets/icon_dark.svg"
-				}
+				"icon": "$(file-add)"
+			},
+			{
+				"command": "art2ascii.color-menu",
+				"title": "Color Menu",
+				"category": "art2ascii",
+				"icon": "$(color-mode)"
 			},
 			{
 				"command": "art2ascii.render",
 				"category": "art2ascii",
 				"title": "Render ASCII"
+			},
+			{
+				"command": "art2ascii.update-tint",
+				"category": "art2ascii",
+				"title": "Update Tint"
+			},
+			{
+				"command": "art2ascii.update-gradient",
+				"category": "art2ascii",
+				"title": "Update Gradient"
+			},
+			{
+				"command": "art2ascii.update-opacity",
+				"category": "art2ascii",
+				"title": "Update Opacity"
 			}
 		],
 		"configuration": [
@@ -74,7 +97,18 @@
 				"properties": {
 					"art2ascii.gifPath": {
 						"type": "string",
-						"default": ""
+						"default": "",
+						"description": "Location of input media."
+					},
+					"art2ascii.tint": {
+						"type": "array",
+						"default": [],
+						"description": "Color of applied tint."
+					},
+					"art2ascii.opacity": {
+						"type": "number",
+						"default": 1.0,
+						"description": "Opacity of tint."
 					}
 				}
 			}
