@@ -20,15 +20,6 @@
 	"icon": "assets/icon.png",
 	"main": "./dist/extension.js",
 	"contributes": {
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "custom-activitybar",
-					"title": "art2ascii",
-					"icon": "assets/logo_bito.svg"
-				}
-			]
-		},
 		"menus": {
 			"view/title": [
 				{
