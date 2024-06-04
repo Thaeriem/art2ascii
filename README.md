@@ -18,7 +18,7 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 ## Usage
 
 ### Installation / Upload Media
-1. Install the art2ascii extension from the Visual Studio Code Marketplace.
+1. Install the art2ascii extension from the Visual Studio Code Marketplace or through the extensions page on VSCode.
 2. Open a workspace or create a new one.
 3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
 4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
