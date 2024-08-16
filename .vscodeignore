@@ -1,4 +1,5 @@
 .vscode
+.env
 src/
 tsconfig.json
 node_modules/**
