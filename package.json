@@ -2,14 +2,20 @@
 	"name": "art2ascii",
 	"displayName": "art2ascii",
 	"description": "VSCode extension for art2ascii to display your ascii art!",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"publisher": "thaeriem",
 	"engines": {
 		"vscode": "^1.74.0"
 	},
 	"author": "Thaeriem",
 	"license": "MIT",
-	"keywords": ["ascii", "gif", "render", "visualization", "animation"],
+	"keywords": [
+		"ascii",
+		"gif",
+		"render",
+		"visualization",
+		"animation"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Thaeriem/art2ascii.git"
@@ -98,7 +104,7 @@
 					},
 					"art2ascii.opacity": {
 						"type": "number",
-						"default": 1.0,
+						"default": 1,
 						"description": "Opacity of tint."
 					}
 				}
@@ -108,7 +114,7 @@
 	"scripts": {
 		"vscode:prepublish": "npm run package",
 		"package": "npm run esbuild-base -- --minify",
-		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:sharp --format=cjs --platform=node",
+		"esbuild-base": "esbuild ./src/extension.ts --bundle --external:vscode --external:sharp --platform=node --outfile=dist/extension.js",
 		"esbuild": "npm run esbuild-base -- --sourcemap",
 		"esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
 		"test-compile": "tsc -p ./"
@@ -121,15 +127,17 @@
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
 		"@vscode/test-electron": "^2.3.9",
+		"esbuild": "^0.21.4",
 		"eslint": "^8.26.0",
 		"source-map-support": "^0.5.12",
-		"typescript": "^5.4.2",
-		"esbuild": "^0.21.4"
+		"typescript": "^5.4.2"
 	},
 	"dependencies": {
 		"ansi_up": "^5.2.1",
 		"gif-frames": "^1.0.1",
-		"heap-js": "^2.5.0",
-		"sharp": "^0.33.4"
+		"heap-js": "^2.5.0"
+	},
+	"optionalDependencies": {
+		"sharp": "^0.32.6"
 	}
 }

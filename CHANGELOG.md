@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.2.1] - 2024-08-15
+- Fixed bundling issue with sharp but had to downgrade from 0.33.4 -> 0.32.6, roughly 200 file load improvement
+- Updated demo + icon on VS Marketplace
+
 ## [1.2.0] - 2024-06-04
 - Added color menu with tint and gradient options.
 - Added opacity option for tints and gradients.

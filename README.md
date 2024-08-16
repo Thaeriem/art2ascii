@@ -1,8 +1,8 @@
 # art2ascii
 
-art2ascii is a Visual Studio Code extension that allows users to select a GIF and play it in ASCII form directly within the Tree View tab of the workspace. 
+art2ascii is a VS Code extension that allows users to select GIF's and play them in ASCII form directly within the Tree View tab of the workspace. 
 
-There is also a seperate Python CLI for rendering, playing, and saving your images and GIFs in terminal [here](https://github.com/Thaeriem/art2ascii/tree/1.0.3)!
+There is also a seperate Python CLI for rendering, playing, and saving your images and GIFs in terminal [here](https://github.com/Thaeriem/art2ascii/tree/cli-release)!
 
 <p align="center">
 <img src="vsce-extension/assets/ascii_pedro.gif" alt="Pedro" style="width: 30%;">
@@ -47,11 +47,13 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 ## Known Issues
 
 - Some GIF files may be too big to render properly (usually anything under 10MB should be fine)
-- Extension cannot currently be bundled properly due to a dependency issue with sharp compiling on cross-platform builds (planning to continue working on this but will be a small performance hit for now...)
-- Working on a better way to interface with webviewView to improve performance
+- There is a possibility that sharp has issues with cross-platform builds. If this is the case and the extension does not run, please open an issue ticket including information about your OS as well as the debug error from Help > Toggle Developer Tools!
 
 ## Release Notes
 
+### Version 1.2.1
+- Fixed bundling issue with sharp but had to downgrade from 0.33.4 -> 0.32.6, roughly 200 file load improvement
+- Updated demo + icon on VS Marketplace
 
 ### Version 1.2.0
 - Added color menu with tint and gradient options.
@@ -70,7 +72,7 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 
 ## Feedback and Contributions
 
-We welcome feedback and contributions from the community. If you encounter any issues or have suggestions for improvement, please [submit an issue](https://github.com/Thaeriem/art2ascii/issues) on GitHub.
+Feel free to leave feedback! If you encounter any issues or have suggestions for improvement, please [submit an issue](https://github.com/Thaeriem/art2ascii/issues) on GitHub.
 
 ## License
 
