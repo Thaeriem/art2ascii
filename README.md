@@ -5,7 +5,7 @@ art2ascii is a VS Code extension that allows users to select GIF's and play them
 There is also a seperate Python CLI for rendering, playing, and saving your images and GIFs in terminal [here](https://github.com/Thaeriem/art2ascii/tree/cli-release)!
 
 <p align="center">
-<img src="vsce-extension/assets/ascii_pedro.gif" alt="Pedro" style="width: 30%;">
+<img src="assets/ascii_pedro.gif" alt="Pedro" style="width: 30%;">
 </p>
 
 ## Features
@@ -24,7 +24,7 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
 
 <p align="center">
-<img src="vsce-extension/assets/techdemo1.gif" alt="Upload Art">
+<img src="assets/techdemo1.gif" alt="Upload Art">
 </p>
 
 ### Adding Tint / Gradient
@@ -33,11 +33,11 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 3. Input selected hexadecimal color in the form `#000000` or `000000`, two colors need to be selected for gradient.
 
 <p align="center">
-<img src="vsce-extension/assets/techdemo2.gif" alt="Add Tint">
+<img src="assets/techdemo2.gif" alt="Add Tint">
 </p>
 
 <p align="center">
-<img src="vsce-extension/assets/techdemo3.gif" alt="Add Gradient">
+<img src="assets/techdemo3.gif" alt="Add Gradient">
 </p>
 
 ## Requirements
