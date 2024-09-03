@@ -1,0 +1,143 @@
+{
+	"name": "art2ascii",
+	"displayName": "art2ascii",
+	"description": "VSCode extension for art2ascii to display your ascii art!",
+	"version": "1.2.1",
+	"publisher": "thaeriem",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"author": "Thaeriem",
+	"license": "MIT",
+	"keywords": [
+		"ascii",
+		"gif",
+		"render",
+		"visualization",
+		"animation"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Thaeriem/art2ascii.git"
+	},
+	"categories": [
+		"Other"
+	],
+	"icon": "assets/icon.png",
+	"main": "./dist/extension.js",
+	"contributes": {
+		"menus": {
+			"view/title": [
+				{
+					"command": "art2ascii.color-menu",
+					"when": "view == art2ascii.artView",
+					"group": "navigation@1"
+				},
+				{
+					"command": "art2ascii.upload-art",
+					"when": "view == art2ascii.artView",
+					"group": "navigation@2"
+				}
+			]
+		},
+		"views": {
+			"explorer": [
+				{
+					"type": "webview",
+					"id": "art2ascii.artView",
+					"name": "art2ascii"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "art2ascii.artView.focus",
+				"category": "art2ascii",
+				"title": "Open Sidebar",
+				"icon": "$(clear-all)"
+			},
+			{
+				"command": "art2ascii.upload-art",
+				"title": "Upload Image/Gif",
+				"category": "art2ascii",
+				"icon": "$(file-add)"
+			},
+			{
+				"command": "art2ascii.color-menu",
+				"title": "Color Menu",
+				"category": "art2ascii",
+				"icon": "$(color-mode)"
+			},
+			{
+				"command": "art2ascii.render",
+				"category": "art2ascii",
+				"title": "Render ASCII"
+			},
+			{
+				"command": "art2ascii.update-tint",
+				"category": "art2ascii",
+				"title": "Update Tint"
+			},
+			{
+				"command": "art2ascii.update-gradient",
+				"category": "art2ascii",
+				"title": "Update Gradient"
+			},
+			{
+				"command": "art2ascii.update-opacity",
+				"category": "art2ascii",
+				"title": "Update Opacity"
+			}
+		],
+		"configuration": [
+			{
+				"properties": {
+					"art2ascii.gifPath": {
+						"type": "string",
+						"default": "",
+						"description": "Location of input media."
+					},
+					"art2ascii.tint": {
+						"type": "array",
+						"default": [],
+						"description": "Color of applied tint."
+					},
+					"art2ascii.opacity": {
+						"type": "number",
+						"default": 1,
+						"description": "Opacity of tint."
+					}
+				}
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run package",
+		"package": "npm run esbuild-base -- --minify",
+		"esbuild-base": "esbuild ./src/extension.ts --bundle --external:vscode --external:sharp --platform=node --outfile=dist/extension.js",
+		"esbuild": "npm run esbuild-base -- --sourcemap",
+		"esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+		"test-compile": "tsc -p ./"
+	},
+	"devDependencies": {
+		"@electron/rebuild": "^3.6.0",
+		"@types/node": "^18",
+		"@types/punycode": "^2.1.4",
+		"@types/vscode": "^1.73.0",
+		"@typescript-eslint/eslint-plugin": "^6.7.0",
+		"@typescript-eslint/parser": "^6.7.0",
+		"@vscode/test-electron": "^2.3.9",
+		"esbuild": "^0.21.4",
+		"eslint": "^8.26.0",
+		"source-map-support": "^0.5.12",
+		"typescript": "^5.4.2"
+	},
+	"dependencies": {
+		"ansi_up": "^5.2.1",
+		"gif-frames": "^1.0.1",
+		"heap-js": "^2.5.0"
+	},
+	"optionalDependencies": {
+		"sharp": "^0.32.6"
+	}
+}
