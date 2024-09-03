@@ -3,6 +3,7 @@
 src/
 tsconfig.json
 node_modules/**
+
 !node_modules/sharp/**
 !node_modules/detect-libc/**
 !node_modules/semver/**    
