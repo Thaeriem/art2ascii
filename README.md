@@ -5,7 +5,7 @@ art2ascii is a VS Code extension that allows users to select GIF's and play them
 There is also a seperate Python CLI for rendering, playing, and saving your images and GIFs in terminal [here](https://github.com/Thaeriem/art2ascii/tree/cli-release)!
 
 <p align="center">
-<img src="vsce-extension/assets/ascii_pedro.gif" alt="Pedro" style="width: 30%;">
+<img src="assets/ascii_pedro.gif" alt="Pedro" style="width: 30%;">
 </p>
 
 ## Features
