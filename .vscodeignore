@@ -1,0 +1,14 @@
+.vscode
+.env
+src/
+tsconfig.json
+node_modules/**
+!node_modules/sharp/**
+!node_modules/detect-libc/**
+!node_modules/semver/**    
+!node_modules/color/**
+!node_modules/color-string/**
+!node_modules/color-name/**
+!node_modules/simple-swizzle/**
+!node_modules/is-arrayish/**
+!node_modules/color-convert/**

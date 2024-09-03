@@ -1,0 +1,10 @@
+**/__pycache__
+*.gif
+*.jpeg
+*.png
+**/.venv
+*.env
+
+**/node_modules
+**/out
+**/dist
