@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-### [1.2.1] - 2024-08-15
+### [1.2.2] - 2024-08-15
 - Fixed bundling issue with sharp but had to downgrade from 0.33.4 -> 0.32.6, roughly 200 file load improvement
 - Updated demo + icon on VS Marketplace
 

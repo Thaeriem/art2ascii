@@ -51,7 +51,7 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 
 ## Release Notes
 
-### Version 1.2.1
+### Version 1.2.2
 - Fixed bundling issue with sharp but had to downgrade from 0.33.4 -> 0.32.6, roughly 200 file load improvement
 - Updated demo + icon on VS Marketplace
 
