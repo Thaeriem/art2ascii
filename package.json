@@ -29,7 +29,7 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "art2ascii.color-menu",
+					"command": "art2ascii.style",
 					"when": "view == art2ascii.artView",
 					"group": "navigation@1"
 				},
@@ -63,8 +63,8 @@
 				"icon": "$(file-add)"
 			},
 			{
-				"command": "art2ascii.color-menu",
-				"title": "Color Menu",
+				"command": "art2ascii.style",
+				"title": "Choose Style",
 				"category": "art2ascii",
 				"icon": "$(color-mode)"
 			},
@@ -72,21 +72,6 @@
 				"command": "art2ascii.render",
 				"category": "art2ascii",
 				"title": "Render ASCII"
-			},
-			{
-				"command": "art2ascii.update-tint",
-				"category": "art2ascii",
-				"title": "Update Tint"
-			},
-			{
-				"command": "art2ascii.update-gradient",
-				"category": "art2ascii",
-				"title": "Update Gradient"
-			},
-			{
-				"command": "art2ascii.update-opacity",
-				"category": "art2ascii",
-				"title": "Update Opacity"
 			}
 		],
 		"configuration": [
@@ -97,15 +82,35 @@
 						"default": "",
 						"description": "Location of input media."
 					},
-					"art2ascii.tint": {
-						"type": "array",
-						"default": [],
-						"description": "Color of applied tint."
+					"art2ascii.border": {
+						"type": "boolean",
+						"default": true,
+						"description": "Border toggle."
 					},
-					"art2ascii.opacity": {
+					"art2ascii.style": {
+						"type": "string",
+						"default": "",
+						"description": "Style theme.",
+						"enum": [
+							"",
+							"retro",
+							"greyscale",
+							"sunset"
+						]
+					},
+					"art2ascii.res": {
 						"type": "number",
-						"default": 1,
-						"description": "Opacity of tint."
+						"default": 100,
+						"description": "Resolution of image.",
+						"minimum": 10,
+    					"maximum": 100
+					},
+					"art2ascii.fps": {
+						"type": "number",
+						"default": 8,
+						"description": "Frame rate of image.",
+						"minimum": 1,
+    					"maximum": 12
 					}
 				}
 			}

@@ -4,15 +4,13 @@ import { gifMain } from "./gif2ascii";
 export interface Args {
   filename: string;
   width: number;
-  tints?: string[];
-  opacity?: number;
+  style?: string;
 }
 
 // Set default values for the optional arguments
 const defaultArgs: Partial<Args> = {
   width: 35,
-  tints: [],
-  opacity: 1.0,
+  style: "",
 };
 
 // Function to validate and merge default values
