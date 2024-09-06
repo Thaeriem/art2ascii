@@ -21,18 +21,34 @@ art2ascii is a VS Code extension that allows users to select GIF's and play them
 3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
 4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
 
+
+https://github.com/user-attachments/assets/f253023d-3118-46b8-b52b-5669be4e764a
+
+
 ### Paste Links (GIPHY, Tenor, Imgur, etc.)
 1. Press the link button or `art2ascii.paste-link` in Command Palette.
 2. Paste link and press enter.
+
+
+https://github.com/user-attachments/assets/197260a7-2c73-40c3-be80-1c54d26d8109
+
 
 ### Adding Styles
 1. Press the style button or `art2ascii.style` in Command Palette.
 2. Choose style from menu.
 
+
+https://github.com/user-attachments/assets/e3bc0c3a-90a0-4150-92cb-76a0a6d010a8
+
+
 ### Additional Settings (resolution, border, fps)
 1. Open VSCode Settings (UI or Json).
 2. Set desired resolution (10 to 100), fps (1 to 12), border (true or false).
 3. Reload the window.
+
+
+https://github.com/user-attachments/assets/4a3404e7-7cb5-4c44-a809-b76f9b9cdfd9
+
 
 ## Requirements
 
