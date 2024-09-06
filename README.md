@@ -2,8 +2,6 @@
 
 art2ascii is a VS Code extension that allows users to select GIF's and play them in ASCII form directly within the Tree View tab of the workspace. 
 
-There is also a seperate Python CLI for rendering, playing, and saving your images and GIFs in terminal [here](https://github.com/Thaeriem/art2ascii/tree/cli-release)!
-
 <p align="center">
 <img src="assets/ascii_pedro.gif" alt="Pedro" style="width: 30%;">
 </p>
@@ -11,8 +9,8 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 ## Features
 
 - Converts selected GIF files into ASCII art and plays in Explorer tab of workspace.
-- Supports basic GIF animations.
-- Apply tint or gradient to image to customize how GIF is rendered.
+- Upload GIF's or paste links to import and play them.
+- Add style palettes to image.
 - Lightweight and easy to use.
 
 ## Usage
@@ -23,27 +21,36 @@ There is also a seperate Python CLI for rendering, playing, and saving your imag
 3. In the Explorer view, press the Upload Image/Gif button or `art2ascii.upload-art` in Command Palette.
 4. Your ASCII GIF will be compiling in the background and when completed it will reload the extension view.
 
-https://github.com/Thaeriem/art2ascii/assets/93838214/65074feb-a767-4402-a13a-00c759f56470
+### Paste Links (GIPHY, Tenor, Imgur, etc.)
+1. Press the link button or `art2ascii.paste-link` in Command Palette.
+2. Paste link and press enter.
 
-### Adding Tint / Gradient
-1. Press the Color Menu button or `art2ascii.color-menu` in Command Palette.
-2. Select Tint or Gradient respectively (you can also skip this step by running either `art2ascii.update-tint` or `art2ascii.update-gradient`).
-3. Input selected hexadecimal color in the form `#000000` or `000000`, two colors need to be selected for gradient.
+### Adding Styles
+1. Press the style button or `art2ascii.style` in Command Palette.
+2. Choose style from menu.
 
-https://github.com/Thaeriem/art2ascii/assets/93838214/bd9a01b7-bf5c-4860-99a3-08058bdf7155
-
-https://github.com/Thaeriem/art2ascii/assets/93838214/4d1b58c7-af64-4ee6-bc87-3831fa610026
+### Additional Settings (resolution, border, fps)
+1. Open VSCode Settings (UI or Json).
+2. Set desired resolution (10 to 100), fps (1 to 12), border (true or false).
+3. Reload the window.
 
 ## Requirements
 
 - Visual Studio Code version 1.74.0 or higher.
 
-## Known Issues
+## Known Issues and Future Updates
 
 - Some GIF files may be too big to render properly (usually anything under 10MB should be fine)
-- There is a possibility that sharp has issues with cross-platform builds. If this is the case and the extension does not run, please open an issue ticket including information about your OS as well as the debug error from Help > Toggle Developer Tools!
+- Working towards allowing users to add and manage their own styles by importing palettes
 
 ## Release Notes
+
+### Version 1.3.0
+- Replaced tint/gradient system for styles
+- Added 10 default styles
+- Refactor for fps, resolution, and border fields
+- Added border for light mode accessibility 
+- Added ability to paste links from GIPHY, Tenor, Imgur, etc. to import locally
 
 ### Version 1.2.1
 - Fixed bundling issue with sharp but had to downgrade from 0.33.4 -> 0.32.6, roughly 200 file load improvement
