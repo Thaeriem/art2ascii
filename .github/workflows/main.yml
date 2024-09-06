@@ -54,6 +54,9 @@ jobs:
     needs: build
     if: success()
     steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 22.x
       - uses: actions/download-artifact@v2
       - run: npm install -g @vscode/vsce@3.0.0
       - run: npx vsce publish --packagePath $(find . -iname *.vsix)
