@@ -6,8 +6,8 @@ import { imgDriver } from "./img2ascii";
 async function splitGif(
   filename: string,
   width: number, 
-  tintColors: string[] = [], 
-  opacity: number = 1.0): Promise<string[]> {
+  style: string = ""
+): Promise<string[]> {
   const asciiGif: string[] = [];
 
   // Extract frames from the GIF
@@ -23,7 +23,7 @@ async function splitGif(
     const frameData = frame.getImage().pipe(sharp({ animated: true }));
     const img = frameData.png({ quality: 100 });
 
-    const asciiArt = await imgDriver(img, width, tintColors, opacity);
+    const asciiArt = await imgDriver(img, width, style);
     asciiGif.push(asciiArt);
   }
   return asciiGif;
@@ -32,7 +32,7 @@ async function splitGif(
 export async function gifMain(
   args: Args,
 ): Promise<string> {
-  const frames = await splitGif(args.filename, args.width, args.tints, args.opacity);
+  const frames = await splitGif(args.filename, args.width, args.style);
   let retStr = "@FRAME@\n";
   for (const frame of frames) {
     retStr += frame;

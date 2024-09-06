@@ -1,59 +1,6 @@
 export type Pixel = [number, number, number];
 export type ColorMapping = { [key: string]: string };
 
-// courtesy of https://stackoverflow.com/questions/3080421/javascript-color-gradient
-function getGradientColor (startColor: string, endColor: string, percent: number): string {
-    // strip the leading # if it's there
-    startColor = startColor.replace(/^\s*#|\s*$/g, '');
-    endColor = endColor.replace(/^\s*#|\s*$/g, '');
-  
-    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-    if (startColor.length === 3) {
-      startColor = startColor.replace(/(.)/g, '$1$1');
-    }
-  
-    if (endColor.length === 3) {
-      endColor = endColor.replace(/(.)/g, '$1$1');
-    }
-  
-    // get colors
-    const startRed = parseInt(startColor.substring(0, 2), 16),
-      startGreen = parseInt(startColor.substring(2, 4), 16),
-      startBlue = parseInt(startColor.substring(4, 6), 16);
-  
-    const endRed = parseInt(endColor.substring(0, 2), 16),
-      endGreen = parseInt(endColor.substring(2, 4), 16),
-      endBlue = parseInt(endColor.substring(4, 6), 16);
-  
-    // calculate new color
-    let diffRed = endRed - startRed;
-    let diffGreen = endGreen - startGreen;
-    let diffBlue = endBlue - startBlue;
-  
-    diffRed = ((diffRed * percent) + startRed);
-    diffGreen = ((diffGreen * percent) + startGreen);
-    diffBlue = ((diffBlue * percent) + startBlue);
-  
-    let diffRedStr = diffRed.toString(16).split('.')[0];
-    let diffGreenStr = diffGreen.toString(16).split('.')[0];
-    let diffBlueStr = diffBlue.toString(16).split('.')[0];
-  
-    // ensure 2 digits by color
-    if (diffRedStr.length === 1) diffRedStr = '0' + diffRedStr;
-    if (diffGreenStr.length === 1) diffGreenStr = '0' + diffGreenStr;
-    if (diffBlueStr.length === 1) diffBlueStr = '0' + diffBlueStr;
-  
-    return '#' + diffRedStr + diffGreenStr + diffBlueStr;
-}
-  
-export function GradientDriver (startColor: string, endColor: string): string[] {
-  let ret = [];
-  for (let i = 0.1; i < 1.0; i+= 0.1) {
-    ret.push(getGradientColor(startColor, endColor, i));
-  }
-  return ret;
-}
-
 export function parseColorFile(colorText: string): ColorMapping {
   const colorMapping: ColorMapping = {};
   const regex = /\((\d+), (\d+), (\d+)\): '(\d+)'/g;
@@ -83,16 +30,31 @@ export function hexToRgb(hex: string): Pixel {
   return [r, g, b];
 }
 
-export function mixRgb(color1: Pixel, color2: Pixel, opacity: number): Pixel {
-  const mixChannel = (channel1: number, channel2: number): number => {
-    return Math.round((channel1 + (opacity)*channel2)/(1+opacity));
-  };
+export function createColorMapping(colorText: string): ColorMapping {
+  const colorMapping: ColorMapping = {};
+  const cleanedText = colorText.replace(/[\{\[\]\}]/g, '');
+  const regex = /\((\d+),\s*(\d+),\s*(\d+)\)|#([0-9A-Fa-f]{6})/g;
+  let match: RegExpExecArray | null;
+  let index = 0; 
+  while ((match = regex.exec(cleanedText)) !== null) {
+    let rgb: Pixel;
 
-  const red = mixChannel(color1[0], color2[0]);
-  const green = mixChannel(color1[1], color2[1]);
-  const blue = mixChannel(color1[2], color2[2]);
+    if (match[1] !== undefined && match[2] !== undefined && match[3] !== undefined)
+      // Match for (r,g,b) format
+      rgb = [
+        parseInt(match[1]),
+        parseInt(match[2]),
+        parseInt(match[3]),
+      ];
+    else if (match[4] !== undefined)
+      // Match for hex code format
+      rgb = hexToRgb(match[4])
+    else continue;
 
-  return [red, green, blue];
+    colorMapping[rgb.toString()] = index.toString();
+    index++;
+  }
+  return colorMapping;
 }
 
 export function RgbToString(pixel: Pixel): string {

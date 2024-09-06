@@ -1,19 +1,41 @@
 import * as vscode from "vscode";
+import * as path from "path";
 import AnsiUp from 'ansi_up';
 import { Args, art2ascii } from "./art2ascii/main";
+import { STYLES } from "./art2ascii/img2ascii";
+import { downloadGif } from "./extract";
+
+const STYLE_OPTIONS = [
+    { label: "" },
+    { label: "greyscale" },
+    { label: "retro" },
+    { label: "sunrise" },
+    { label: "floral" },
+    { label: "cold" },
+    { label: "sunset" },
+    { label: "cloudy" },
+    { label: "gameboy" },
+    { label: "pastel" },
+    { label: "midnight" }
+];
 
 export function activate(context: vscode.ExtensionContext) {
     const extensionPath = vscode.extensions.getExtension('Thaeriem.art2ascii')?.extensionPath;
     const config = vscode.workspace.getConfiguration();
-    let selectedGifPath = "";
-    var gifPath: string | undefined = config.get<string>('art2ascii.gifPath');
-    if (gifPath != undefined) selectedGifPath = gifPath;
-    let tint: string[] = [];
-    var tintVar: string[] | undefined = config.get<string[]>('art2ascii.tint');
-    if (tintVar != undefined && tintVar[0] != '') tint = tintVar;      
-    let selectedOpacity = 1.0;
-    var opacity: number | undefined = config.get<number>('art2ascii.opacity');
-    if (opacity != undefined) selectedOpacity = opacity;
+    let gifPath = "";
+    let style = "";
+    let resolution = 100;
+    let border = true;
+
+    var configGifPath: string | undefined = config.get<string>('art2ascii.gifPath');
+    var configBorder: boolean | undefined = config.get<boolean>('art2ascii.border');
+    var configStyle: string | undefined = config.get<string>('art2ascii.style');
+    var configRes: number | undefined = config.get<number>('art2ascii.res');
+
+    if (configGifPath != undefined) gifPath = configGifPath;
+    if (configBorder != undefined) border = configBorder;
+    if (configStyle != undefined) style = configStyle;
+    if (configRes != undefined) resolution = configRes;
 
     const provider = new CustomSidebarViewProvider(context.extensionUri);
     context.subscriptions.push(
@@ -22,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
             provider
         )
     );
-    provider.renderFrames(selectedGifPath, tint, selectedOpacity);
+    provider.renderFrames(gifPath, style, resolution, border);
 
     let uploadArt = vscode.commands.registerCommand(
         "art2ascii.upload-art",
@@ -41,14 +63,37 @@ export function activate(context: vscode.ExtensionContext) {
                     vscode.window.showInformationMessage("No file selected");
                 else {
                     if (fileUri && fileUri.length > 0) {
-                        selectedGifPath = fileUri[0].fsPath;
-                        await config.update("art2ascii.gifPath", selectedGifPath, 
+                        gifPath = fileUri[0].fsPath;
+                        await config.update("art2ascii.gifPath", gifPath, 
                         vscode.ConfigurationTarget.Global);
                         vscode.commands.executeCommand('art2ascii.render');
                     }
                 }
             });
     });
+
+    let pasteLink = vscode.commands.registerCommand(
+        "art2ascii.paste-link",
+        async () => {
+            const link = await vscode.window.showInputBox({
+                placeHolder: "Paste a link to an image or gif"
+            });
+
+            if (link) {
+                const tempPath = path.join(extensionPath!, 'link.gif');
+                downloadGif(link, tempPath, async (err) => {
+                    if (err) vscode.window.showErrorMessage("Failed to download the image.");
+                    else {
+                        gifPath = tempPath;
+                        await config.update("art2ascii.gifPath", gifPath, vscode.ConfigurationTarget.Global);
+                        vscode.commands.executeCommand('art2ascii.render');
+                    }
+                });
+            } else {
+                vscode.window.showErrorMessage("Invalid URL or not an image.");
+            }
+        }
+    );
 
     let render = vscode.commands.registerCommand(
         "art2ascii.render",
@@ -57,108 +102,25 @@ export function activate(context: vscode.ExtensionContext) {
                 vscode.window.showErrorMessage('Failed to retrieve extension directory path.');
                 return;
             } 
-            provider.renderFrames(selectedGifPath, tint, selectedOpacity);
+            provider.renderFrames(gifPath, style, resolution, border);
         });
 
-    let colorMenu = vscode.commands.registerCommand(
-        "art2ascii.color-menu",
-        async() => {
-            const options: vscode.QuickPickOptions = {
-                title: "Color Menu",
-                canPickMany: false,
-                placeHolder: 'Select Color Mode'
-            };
-            const res = await vscode.window.showQuickPick(["Tint","Gradient"], options);
-            if (res == "Tint") vscode.commands.executeCommand("art2ascii.update-tint");
-            else vscode.commands.executeCommand("art2ascii.update-gradient");
-    });
-
-    let updateOpacity = vscode.commands.registerCommand(
-        "art2ascii.update-opacity",
+    let updateStyle = vscode.commands.registerCommand(
+        "art2ascii.style",
         async () => {
-            const isValidOpac = (opac: string): boolean => {
-                const op = parseFloat(opac);
-                if (!op) return false;
-                return (op <= 1.00 && op > 0.00)
-            }
-
-            let opacInput = await vscode.window.showInputBox({
-                placeHolder: 'Enter a numerical value between 0.01 and 1.00'
-            })
-            if (opacInput == undefined) return;
-
-            if(isValidOpac(opacInput)) {
-                const op = parseFloat(opacInput);
-                selectedOpacity = op;
-                await config.update("art2ascii.opacity", selectedOpacity, 
-                vscode.ConfigurationTarget.Global);
-            }
-            else {
-                vscode.window.showInformationMessage("Non-valid Input");
-                return;
-            }
-            provider.renderFrames(selectedGifPath, tint, selectedOpacity);   
-    });
-
-    const isValidHex = (hex: string): boolean => {
-        if (hex == "") return true;
-        // Remove leading '#' if present
-        hex = hex.replace(/^#/, '');
-        // Validate hex string
-        return /^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
-    };
-
-    let updateTint = vscode.commands.registerCommand(
-        "art2ascii.update-tint",
-        async () => {
-            let hexInput = await vscode.window.showInputBox({
-                placeHolder: 'Enter a hexadecimal color code (e.g., #ff5733 or ff5733)',
-                title: "Select Tint"
+            const selectedStyle = await vscode.window.showQuickPick(STYLE_OPTIONS, {
+                placeHolder: 'Select a style',
+                canPickMany: false
             });
-            if (hexInput == undefined) return;
-
-            if(isValidHex(hexInput)) {
-                if (hexInput == "") tint = [];
-                else tint = [hexInput];
-                await config.update("art2ascii.tint", tint, vscode.ConfigurationTarget.Global);
+            if (selectedStyle) {
+                style = selectedStyle.label;
+                await config.update("art2ascii.style", selectedStyle.label, 
+                    vscode.ConfigurationTarget.Global);
             }
-            else {
-                vscode.window.showInformationMessage("Non-valid Hexadecimal Input");
-                return;
-            }
-            provider.renderFrames(selectedGifPath, tint, selectedOpacity);   
-    });
-
-    let updateGradient = vscode.commands.registerCommand( 
-        "art2ascii.update-gradient",
-        async() => {
-            let hexInput = await vscode.window.showInputBox({
-                placeHolder: 'Enter a hexadecimal color code (e.g., #ff5733 or ff5733)',
-                title: "Select Gradient 1/2"
-            });
-            if (hexInput == undefined) return;
-            let hexInput2 = await vscode.window.showInputBox({
-                placeHolder: 'Enter a hexadecimal color code (e.g., #ff5733 or ff5733)',
-                title: "Select Gradient 2/2"
-            });
-            if (hexInput2 == undefined) return;
-            if(isValidHex(hexInput) && isValidHex(hexInput2)) {
-                let tmp = []
-                if (hexInput != "") tmp.push(hexInput);
-                if (hexInput2 != "") tmp.push(hexInput2); 
-                tint = tmp;
-                await config.update("art2ascii.tint", tint, vscode.ConfigurationTarget.Global);
-            }
-            else {
-                vscode.window.showInformationMessage("Non-valid Hexadecimal Input");
-                return;
-            }
-            provider.renderFrames(selectedGifPath, tint, selectedOpacity);
-            
-
+            provider.renderFrames(gifPath, style, resolution, border);   
     });
     
-    context.subscriptions.push(uploadArt, colorMenu, updateGradient, updateTint, updateOpacity, render);
+    context.subscriptions.push(uploadArt, pasteLink, render, updateStyle);
 
 }
 
@@ -185,6 +147,11 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
     }
 
     private async updateWebviewContent(): Promise<void> {
+        const config = vscode.workspace.getConfiguration();
+        let fps = 8;
+        var configFPS: number | undefined = config.get<number>('art2ascii.fps');
+        if (configFPS != undefined) fps = configFPS;
+        
         let local_frames = this._frames;
         const animate = (): NodeJS.Timeout => {
             let currentIndex = 0;
@@ -193,7 +160,7 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
                     this._view.webview.html = local_frames[currentIndex];
                     currentIndex = (currentIndex + 1) % local_frames.length;
                 }
-            }, 150);
+            }, 1000/fps);
             return interval;
         }
         let interval = animate();
@@ -215,29 +182,55 @@ class CustomSidebarViewProvider implements vscode.WebviewViewProvider {
         if (this._view && this._view.webview) this._view.webview.html = ``;
     }
 
-    private getFrames(data: string, tint: boolean = false): string[] {
+    private getFrames(
+        data: string, 
+        resolution: number = 100,
+        style: string = "",
+        border: boolean
+    ): string[] {
         const ansi_up = new AnsiUp();
+        let fontSize = 450/resolution;
+        let styling = `
+            font-size: ${fontSize}px;
+            line-height: ${fontSize}px;
+            display: inline-block;
+        `;
+        if (border) {
+            styling += `
+            padding: 5px;
+            overflow: hidden;
+            border-radius: 3px; 
+            box-sizing: border-box;
+            background-color: #000000; 
+        `  
+        }
+        
         let frames = data.split('@FRAME@').map(frame => {
             // Convert each frame to HTML
-            if (tint) return `<pre>${frame}</pre>`;
+            if ((STYLES.includes(style))) return `<pre style="${styling}">${frame}</pre>`;
             const html = ansi_up.ansi_to_html(frame);
-            return `<pre>${html}</pre>`;
+            return `<pre style="${styling}">${html}</pre>`;
         });
         frames.shift();
         frames.pop();
         return frames;
     }
 
-    public async renderFrames(filename: string, tintColors: string[], opacity: number) {
+    public async renderFrames(
+        filename: string, 
+        style: string = "",
+        resolution: number=100,
+        border: boolean=true,
+    ) {
+        
         const args: Args = {
             filename: filename,
-            width: 35,
-            tints: tintColors,
-            opacity: opacity,
+            width: resolution,
+            style: style,
         }
         try {
             const output = await art2ascii(args);
-            this._frames = this.getFrames(output, (tintColors.length > 0));
+            this._frames = this.getFrames(output, resolution, style, border);
             this._framesChanged = true;
         } catch(err) {
             console.error(err);   
