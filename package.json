@@ -2,7 +2,7 @@
 	"name": "art2ascii",
 	"displayName": "art2ascii",
 	"description": "VSCode extension for art2ascii to display your ascii art!",
-	"version": "1.2.1",
+	"version": "1.3.0",
 	"publisher": "thaeriem",
 	"engines": {
 		"vscode": "^1.74.0"
@@ -34,9 +34,14 @@
 					"group": "navigation@1"
 				},
 				{
-					"command": "art2ascii.upload-art",
+					"command": "art2ascii.paste-link",
 					"when": "view == art2ascii.artView",
 					"group": "navigation@2"
+				},
+				{
+					"command": "art2ascii.upload-art",
+					"when": "view == art2ascii.artView",
+					"group": "navigation@3"
 				}
 			]
 		},
@@ -61,6 +66,12 @@
 				"title": "Upload Image/Gif",
 				"category": "art2ascii",
 				"icon": "$(file-add)"
+			},
+			{
+				"command": "art2ascii.paste-link",
+				"category": "art2ascii",
+				"title": "Link Image",
+				"icon": "$(link)"
 			},
 			{
 				"command": "art2ascii.style",
@@ -93,9 +104,15 @@
 						"description": "Style theme.",
 						"enum": [
 							"",
-							"retro",
-							"greyscale",
-							"sunset"
+							"retro", 
+							"sunrise", 
+							"floral", 
+							"cold", 
+							"sunset",
+							"cloudy", 
+							"gameboy",
+							"pastel",
+							"midnight"
 						]
 					},
 					"art2ascii.res": {

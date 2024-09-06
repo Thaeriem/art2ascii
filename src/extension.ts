@@ -1,13 +1,22 @@
 import * as vscode from "vscode";
+import * as path from "path";
 import AnsiUp from 'ansi_up';
 import { Args, art2ascii } from "./art2ascii/main";
-import { STYLES } from "./art2ascii/img2ascii"
+import { STYLES } from "./art2ascii/img2ascii";
+import { downloadGif } from "./extract";
 
 const STYLE_OPTIONS = [
     { label: "" },
     { label: "greyscale" },
     { label: "retro" },
-    { label: "sunset" }
+    { label: "sunrise" },
+    { label: "floral" },
+    { label: "cold" },
+    { label: "sunset" },
+    { label: "cloudy" },
+    { label: "gameboy" },
+    { label: "pastel" },
+    { label: "midnight" }
 ];
 
 export function activate(context: vscode.ExtensionContext) {
@@ -63,6 +72,29 @@ export function activate(context: vscode.ExtensionContext) {
             });
     });
 
+    let pasteLink = vscode.commands.registerCommand(
+        "art2ascii.paste-link",
+        async () => {
+            const link = await vscode.window.showInputBox({
+                placeHolder: "Paste a link to an image or gif"
+            });
+
+            if (link) {
+                const tempPath = path.join(extensionPath!, 'link.gif');
+                downloadGif(link, tempPath, async (err) => {
+                    if (err) vscode.window.showErrorMessage("Failed to download the image.");
+                    else {
+                        gifPath = tempPath;
+                        await config.update("art2ascii.gifPath", gifPath, vscode.ConfigurationTarget.Global);
+                        vscode.commands.executeCommand('art2ascii.render');
+                    }
+                });
+            } else {
+                vscode.window.showErrorMessage("Invalid URL or not an image.");
+            }
+        }
+    );
+
     let render = vscode.commands.registerCommand(
         "art2ascii.render",
         async () => {
@@ -88,7 +120,7 @@ export function activate(context: vscode.ExtensionContext) {
             provider.renderFrames(gifPath, style, resolution, border);   
     });
     
-    context.subscriptions.push(uploadArt, render, updateStyle);
+    context.subscriptions.push(uploadArt, pasteLink, render, updateStyle);
 
 }
 

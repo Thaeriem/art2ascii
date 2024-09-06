@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.3.0] - 2024-09-05
+- Replaced tint/gradient system for styles
+- Added 10 default styles
+- Refactor for fps, resolution, and border fields
+- Added border for light mode accessibility 
+- Added ability to paste links from GIPHY, Tenor, Imgur, etc. to import locally
+
 ### [1.2.1] - 2024-08-15
 - Fixed bundling issue with sharp but had to downgrade from 0.33.4 -> 0.32.6, roughly 200 file load improvement
 - Updated demo + icon on VS Marketplace
