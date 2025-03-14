@@ -104,12 +104,12 @@
 						"description": "Style theme.",
 						"enum": [
 							"",
-							"retro", 
-							"sunrise", 
-							"floral", 
-							"cold", 
+							"retro",
+							"sunrise",
+							"floral",
+							"cold",
 							"sunset",
-							"cloudy", 
+							"cloudy",
 							"gameboy",
 							"pastel",
 							"midnight"
@@ -120,14 +120,14 @@
 						"default": 100,
 						"description": "Resolution of image.",
 						"minimum": 10,
-    					"maximum": 100
+						"maximum": 100
 					},
 					"art2ascii.fps": {
 						"type": "number",
 						"default": 8,
 						"description": "Frame rate of image.",
 						"minimum": 1,
-    					"maximum": 12
+						"maximum": 12
 					}
 				}
 			}
@@ -149,11 +149,11 @@
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
 		"@vscode/test-electron": "^2.3.9",
+		"@vscode/vsce": "3.0.0",
 		"esbuild": "^0.21.4",
 		"eslint": "^8.26.0",
 		"source-map-support": "^0.5.12",
-		"typescript": "^5.4.2",
-		"@vscode/vsce": "3.0.0"
+		"typescript": "^5.4.2"
 	},
 	"dependencies": {
 		"ansi_up": "^5.2.1",
@@ -164,8 +164,8 @@
 	"optionalDependencies": {
 		"@img/sharp-darwin-arm64": "0.33.5",
 		"@img/sharp-darwin-x64": "0.33.5",
-		"@img/sharp-win32-x64": "0.33.5",
+		"@img/sharp-linux-arm64": "0.33.5",
 		"@img/sharp-linux-x64": "0.33.5",
-		"@img/sharp-linux-arm64": "0.33.5"
+		"@img/sharp-win32-x64": "0.33.5"
 	}
 }
