@@ -61,6 +61,10 @@ https://github.com/user-attachments/assets/4a3404e7-7cb5-4c44-a809-b76f9b9cdfd9
 
 ## Release Notes
 
+### Version 1.4.0
+- Fixed mouse jitter issue for certain OS
+- Upgraded dependencies and vscode version
+
 ### Version 1.3.0
 - Replaced tint/gradient system for styles
 - Added 10 default styles

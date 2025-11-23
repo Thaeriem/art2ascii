@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.4.0] - 2025-11-22
+- Fixed mouse jitter issue for certain OS
+- Upgraded dependencies and vscode version
+
 ### [1.3.0] - 2024-09-05
 - Replaced tint/gradient system for styles
 - Added 10 default styles
