@@ -33,8 +33,8 @@ jobs:
             npm_config_arch: arm64
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22.x
       - run: npm install
@@ -44,7 +44,7 @@ jobs:
       - shell: pwsh
         run: echo "target=${{ matrix.platform }}-${{ matrix.arch }}" >> $env:GITHUB_ENV
       - run: npx vsce package --target ${{ env.target }}
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.target }}
           path: "*.vsix"
@@ -54,10 +54,10 @@ jobs:
     needs: build
     if: success()
     steps:
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version: 22.x
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
       - run: npm install -g @vscode/vsce@3.0.0
       - run: npx vsce publish --packagePath $(find . -iname *.vsix)
         env:
