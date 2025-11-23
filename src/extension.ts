@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import AnsiUp from 'ansi_up';
+import { AnsiUp } from 'ansi_up';
 import { Args, art2ascii } from "./art2ascii/main";
 import { STYLES } from "./art2ascii/img2ascii";
 import { downloadGif } from "./extract";
