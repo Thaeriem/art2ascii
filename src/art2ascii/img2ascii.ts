@@ -81,10 +81,6 @@ function asciiRender(
   return code;
 }
 
-function gradientEval(info: sharp.OutputInfo, gradLength: number) {
-    return info.width / gradLength;
-}
-
 function checkStyle(style: string) {
   if (STYLES.includes(style))
     return style
